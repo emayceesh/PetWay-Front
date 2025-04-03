@@ -19,7 +19,14 @@ export class ClienteListComponent {
   }
 
   findAll(){
-
+    this.clienteService.findAll().subscribe({
+      next: (listaRetornada) => {
+        this.lista = listaRetornada;
+      },
+      error: (erro) => {
+        alert(erro.error);
+      }
+    });
   }
 
   delete(cliente: Cliente){
