@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Cliente } from '../../../models/cliente';
+import { ClienteService } from '../../../services/cliente.service';
 
 @Component({
   selector: 'app-cliente-list',
@@ -8,5 +10,32 @@ import { Component } from '@angular/core';
   styleUrl: './cliente-list.component.scss'
 })
 export class ClienteListComponent {
+  lista: Cliente[] = [];
+
+  clienteService = inject(ClienteService);
+
+  constructor() {
+    this.findAll();
+  }
+
+  findAll(){
+
+  }
+
+  delete(cliente: Cliente){
+    if(confirm('Deseja excluir este cliente?')){
+
+      this.clienteService.deleteById(cliente.id).subscribe({
+        next: (mensagem) => {
+          alert(mensagem);
+          this.findAll();
+        },
+        error: (erro) => {
+          alert(erro.error)
+        }
+      });
+
+    }
+  }
 
 }

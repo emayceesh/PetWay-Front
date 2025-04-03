@@ -1,1 +1,56 @@
-<p>cliente-list works!</p>
+<br>
+ <div class="container">
+     <div class="row">
+         <div class="col-12 azul">
+ 
+             <div class="card">
+                 <div class="card-body">
+ 
+                     <h2> <i class="fas fa-archive fa-sm"></i> Cadastro de Clientes</h2><br>
+                     
+                     <div>
+                         
+                     </div>
+ 
+                     <div class="alinharADireita">
+                         <a href="admin/cliente/new" class="btn btn-success btn-rounded" mdbRippled>
+                             <i class="fas fa-plus fa-sm"></i> Novo
+                         </a>
+                     </div>
+ 
+ 
+                     <table class="table">
+ 
+                         <thead>
+                             <tr>
+                                 <th scope="col">ID</th>
+                                 <th scope="col">NOME</th>
+                                 <th scope="col alinharADireita">AÇÕES</th>
+                             </tr>
+                         </thead>
+                         <tbody>
+                             @for (cliente of lista; track $index) {
+                             <tr>
+                                 <td>{{cliente.id}}</td>
+                                 <td>{{cliente.nomeCliente}}</td>
+                                 <td class="alinharADireita">
+                                     <a href="admin/cliente/edit/{{cliente.id}}" class="btn btn-primary btn-rounded"
+                                         mdbRippled>
+                                         <i class="fas fa-pencil fa-sm"></i>
+                                     </a>
+                                     <button (click)="delete(cliente)" class="btn btn-danger btn-rounded" mdbRippled>
+                                         <i class="fas fa-trash fa-sm"></i>
+                                     </button>
+                                 </td>
+                             </tr>
+                             }
+ 
+                         </tbody>
+                     </table>
+ 
+                 </div>
+             </div>
+ 
+         </div>
+     </div>
+ </div>

@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { ClienteListComponent } from './components/cliente/cliente-list/cliente-list.component';
 import { ClienteFormComponent } from './components/cliente/cliente-form/cliente-form.component';
 import { AnimaisListComponent } from './components/animais/animais-list/animais-list.component';
-import { Animais } from './models/animais';
 import { AnimaisFormComponent } from './components/animais/animais-form/animais-form.component';
 import { AgendamentoListComponent } from './components/agendamento/agendamento-list/agendamento-list.component';
 import { AgendamentoFormComponent } from './components/agendamento/agendamento-form/agendamento-form.component';
