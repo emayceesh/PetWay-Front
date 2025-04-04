@@ -1,1 +1,49 @@
-<p>menu works!</p>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <!-- Container wrapper -->
+    <div class="container-fluid">
+      <!-- Navbar brand -->
+
+      <i class="fa-solid fa-dog"></i>
+      <a class="navbar-brand" href="#">PetWay</a>
+  
+      <!-- Toggle button -->
+      <button class="navbar-toggler" type="button" (click)="basicNavbar.toggle()" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+  
+      <!-- Collapsible wrapper -->
+      <div class="collapse navbar-collapse" id="navbarSupportedContent" mdbCollapse #basicNavbar="mdbCollapse">
+        <!-- Left links -->
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="/admin/dashboard">Início</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/cliente">Clientes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/animais">Animais</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/agendamento">Agendamento</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/produtos">Produtos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/servicos">Servicos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/login">Sair</a>
+          </li>
+        </ul>
+        <!-- Left links -->
+  
+      </div>
+      <!-- Collapsible wrapper -->
+    </div>
+    <!-- Container wrapper -->
+  </nav>
+  <!-- Navbar -->
