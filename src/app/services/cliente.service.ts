@@ -14,11 +14,23 @@ export class ClienteService {
 
   constructor() { }
 
+  save(cliente: Cliente): Observable<string> {
+    return this.http.post<string>(this.API+'/save', cliente, {responseType: 'text' as 'json'});
+  }
+
+  update(cliente: Cliente, id: number): Observable<string> {
+    return this.http.put<string>(this.API+'/update/'+id, cliente, {responseType: 'text' as 'json'});
+  }
+
   findAll(): Observable<Cliente[]>{
     return this.http.get<Cliente[]>(this.API+'/findAll');
   }
 
+  findById(id: number): Observable<Cliente>{
+    return this.http.get<Cliente>(this.API+'/findById/'+id);
+  }
+
   deleteById(id: number): Observable<string>{
-    return this.http.delete<string>(this.API+'/deleteById/'+id, {responseType: 'text' as 'json'});
+    return this.http.delete<string>(this.API+'/delete/'+id, {responseType: 'text' as 'json'});
   }
 }
