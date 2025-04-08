@@ -1,1 +1,59 @@
-<p>cliente-form works!</p>
+<br />
+<div class="container">
+  <div class="row">
+    <div class="col-4"></div>
+
+    <div class="col-4">
+      <div class="card">
+        <div class="card-body centralizar">
+
+          <h2>Cadastro de Clientes</h2>
+          <br />
+
+          <form #formulario="ngForm" (ngSubmit)="save()">
+
+            <mdb-form-control>
+              <input mdbInput type="text" name="nome" class="form-control" [(ngModel)]="cliente.nomeCliente" />
+              <label mdbLabel class="form-label" for="nome">Nome do cliente</label>
+            </mdb-form-control>
+            <br>
+            <mdb-form-control>
+                <input mdbInput type="text" name="cpf" class="form-control" [(ngModel)]="cliente.cpf" />
+                <label mdbLabel class="form-label" for="nome">CPF</label>
+            </mdb-form-control>
+            <br>
+            <mdb-form-control>
+                <input mdbInput type="text" name="celular" class="form-control" [(ngModel)]="cliente.celular" />
+                <label mdbLabel class="form-label" for="nome">Celular</label>
+            </mdb-form-control>
+            <br>
+            <mdb-form-control>
+                <input mdbInput type="text" name="telefone" class="form-control" [(ngModel)]="cliente.telefone" />
+                <label mdbLabel class="form-label" for="nome">Telefone</label>
+            </mdb-form-control>
+            <br>
+            <mdb-form-control>
+                <input mdbInput type="text" name="endereco" class="form-control" [(ngModel)]="cliente.endereco" />
+                <label mdbLabel class="form-label" for="nome">Endereco</label>
+            </mdb-form-control>
+            <br>
+
+            @if(cliente.id > 0){
+            <button type="submit" [disabled]="!formulario.valid" class="btn btn-success btn-rounded">
+              <i class="fas fa-save fa-sm"></i> Atualizar
+            </button>
+            }@else {
+            <button type="submit" [disabled]="!formulario.valid" class="btn btn-success btn-rounded">
+              <i class="fas fa-save fa-sm"></i> Salvar
+            </button>
+            }
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col-4"></div>
+  </div>
+</div>

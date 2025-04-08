@@ -1,1 +1,62 @@
-<p>produtos-list works!</p>
+<br>
+ <div class="container">
+     <div class="row">
+         <div class="col-12 azul">
+ 
+             <div class="card">
+                 <div class="card-body">
+ 
+                     <h2> <i class="fas fa-archive fa-sm"></i> Cadastro de Produtos</h2><br>
+                     
+                     <div>
+                         
+                     </div>
+ 
+                     <div class="alinharADireita">
+                         <a href="admin/produtos/new" class="btn btn-success btn-rounded" mdbRippled>
+                             <i class="fas fa-plus fa-sm"></i> Novo
+                         </a>
+                     </div>
+ 
+ 
+                     <table class="table">
+ 
+                         <thead>
+                             <tr>
+                                 <th scope="col">ID</th>
+                                 <th scope="col">NOME</th>
+                                 <th scope="col">QUANTIDADE</th>
+                                 <th scope="col">PREÇO</th>
+                                 <th scope="col">CATEGORIA</th>
+                                 <th scope="col alinharADireita">AÇÕES</th>
+                             </tr>
+                         </thead>
+                         <tbody>
+                             @for (produto of lista; track $index) {
+                             <tr>
+                                 <td>{{produto.id}}</td>
+                                 <td>{{produto.nome}}</td>
+                                 <td>{{produto.quantidade }}</td>
+                                 <td>{{produto.preco }}</td>
+                                 <td>{{produto.categoria }}</td>
+                                 <td class="alinharADireita">
+                                     <a href="admin/produtos/edit/{{produto.id}}" class="btn btn-primary btn-rounded"
+                                         mdbRippled>
+                                         <i class="fas fa-pencil fa-sm"></i>
+                                     </a>
+                                     <button (click)="delete(produto)" class="btn btn-danger btn-rounded" mdbRippled>
+                                         <i class="fas fa-trash fa-sm"></i>
+                                     </button>
+                                 </td>
+                             </tr>
+                             }
+ 
+                         </tbody>
+                     </table>
+ 
+                 </div>
+             </div>
+ 
+         </div>
+     </div>
+ </div>
