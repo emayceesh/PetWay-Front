@@ -1,1 +1,31 @@
-<p>animais-form works!</p>
+<form #formAnimal="ngForm" (ngSubmit)="save()">
+    <div class="form-group">
+      <label for="nomeAnimal">Nome do Animal</label>
+      <input required type="text" id="nomeAnimal" class="form-control" [(ngModel)]="animais.nomeAnimal" name="nomeAnimal">
+    </div>
+  
+    <div class="form-group">
+      <label for="raca">Raça</label>
+      <input required type="text" id="raca" class="form-control" [(ngModel)]="animais.raca" name="raca">
+    </div>
+  
+    <div class="form-group">
+      <label for="sexoAnimal">Sexo</label>
+      <input required type="text" id="sexoAnimal" class="form-control" [(ngModel)]="animais.sexoAnimal" name="sexoAnimal">
+    </div>
+  
+    <div class="form-group">
+      <label for="porte">Porte</label>
+      <input required type="text" id="porte" class="form-control" [(ngModel)]="animais.porte" name="porte">
+    </div>
+  
+    <div class="form-group">
+      <label for="cor">Cor</label>
+      <input type="text" id="cor" class="form-control" [(ngModel)]="animais.cor" name="cor">
+    </div>
+  
+    <button type="submit" [disabled]="!formAnimal.valid" class="btn btn-success">
+      {{ animais.id ? 'Atualizar' : 'Salvar' }}
+    </button>
+  </form>
+  

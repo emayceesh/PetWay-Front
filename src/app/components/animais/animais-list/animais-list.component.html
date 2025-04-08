@@ -1,86 +1,70 @@
-<br>
 <div class="container">
-
-
     <div class="row">
-        <div class="col-12 azul">
-
-            <div class="card">
-                <div class="card-body">
-
-                    <h3> <i class="fas fa-car fa-sm"></i> Cadastro de Animais</h3><br>
-
-                    <div class="row">
-
-                        <div class="col-6">
-                            <div class="input-group mb-3">
-                                <input (keyup)="findByNome()" [(ngModel)]="pesquisa" type="text" class="form-control"
-                                    placeholder="Digite parte do nome do carro" aria-label="Recipient's username"
-                                    aria-describedby="button-addon2" />
-        
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="alinharADireita">
-                                <a (click)="new()" class="btn btn-success btn-rounded" mdbRippled>
-                                    <i class="fas fa-plus fa-sm"></i> Novo
-                                </a>
-                            </div>
-                        </div>
-
-                    </div>
-
-
-
-                    <table class="table table-striped">
-
-                        <thead>
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">NOME</th>
-                                <th scope="col">MARCA</th>
-                                <th scope="col"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @for (animais of lista; track $index) {
-                            <tr>
-                                <td>{{animais.id}}</td>
-                                <td>{{animais.nomeAnimal}}</td>
-                              
-                                <td class="alinharADireita">
-                                    <a (click)="edit(animais)" class="btn btn-primary btn-rounded" mdbRippled>
-                                        <i class="fas fa-pencil fa-sm"></i>
-                                    </a>
-                                    <button (click)="delete(animais)" class="btn btn-danger btn-rounded" mdbRippled>
-                                        <i class="fas fa-trash fa-sm"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            }
-
-                        </tbody>
-                    </table>
-
+      <div class="col-12 azul">
+        <div class="card">
+          <div class="card-body">
+            <h3><i class="fas fa-car fa-sm"></i> Cadastro de Animais</h3><br>
+            <div class="row">
+              <div class="col-6">
+                <div class="input-group mb-3">
+                  <input (keyup)="findByNome()" [(ngModel)]="pesquisa" type="text" class="form-control"
+                    placeholder="Digite parte do nome do animal" aria-label="Busca" aria-describedby="button-addon2" />
                 </div>
+              </div>
+              <div class="col-6">
+                <div class="alinharADireita">
+                  <a (click)="new()" class="btn btn-success btn-rounded" mdbRippled>
+                    <i class="fas fa-plus fa-sm"></i> Novo
+                  </a>
+                </div>
+              </div>
             </div>
-
+  
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">NOME</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (animal of lista; track $index) {
+                  <tr>
+                    <td>{{ animal.id }}</td>
+                    <td>{{ animal.nomeAnimal }}</td>
+                    <td class="alinharADireita">
+                      <a (click)="edit(animal)" class="btn btn-primary btn-rounded" mdbRippled>
+                        <i class="fas fa-pencil fa-sm"></i>
+                      </a>
+                      <button (click)="delete(animal)" class="btn btn-danger btn-rounded" mdbRippled>
+                        <i class="fas fa-trash fa-sm"></i>
+                      </button>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+              
+            </table>
+  
+          </div>
         </div>
+      </div>
     </div>
-</div>
-
-
-
-<!-- <ng-template #modalAnimaisForm>
-
+  </div>
+  
+  <!-- Template do modal que inclui o componente de formulário -->
+  <ng-template #modalAnimaisForm>
     <div class="modal-header">
-        @if(animaisEdit.id > 0){
-            <h5 class="modal-title" id="exampleModalLabel">Edit Animal</h5>
-        }@else {
-            <h5 class="modal-title" id="exampleModalLabel">Novo Animal</h5>  
-        }
-        <button type="button" class="btn-close" aria-label="Close" (click)="modalRef.close()"></button>
+      <!-- Exibe "Edit Animal" se houver id, senão "Novo Animal" -->
+      <h5 class="modal-title" id="exampleModalLabel">
+        {{ animaisEdit && animaisEdit.id ? 'Edit Animal' : 'Novo Animal' }}
+      </h5>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modalRef.close()"></button>
     </div>
-    
-
-</ng-template> -->
+    <div class="modal-body">
+      <!-- Aqui é onde o componente de formulário é inserido -->
+      <app-animais-form [animais]="animaisEdit" (meuEvento)="meuEventoTratamento($event)"></app-animais-form>
+    </div>
+  </ng-template>
+  

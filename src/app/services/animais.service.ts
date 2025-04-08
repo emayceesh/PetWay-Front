@@ -31,7 +31,7 @@ export class AnimaisService {
   }
 
   deleteById(id: number): Observable<string>{
-    return this.http.delete<string>(this.API+'/deleteById/'+id, {responseType: 'text' as 'json'});
+    return this.http.delete<string>(this.API+'/delete/'+id, {responseType: 'text' as 'json'});
   }
 
   save(animal: Animais): Observable<string> {
@@ -39,7 +39,7 @@ export class AnimaisService {
   }
 
   update(animal: Animais, id: number): Observable<string> {
-    return this.http.put<string>(this.API+'/update/'+id, Animais, {responseType: 'text' as 'json'});
+    return this.http.put<string>(this.API+'/update/'+id, animal, {responseType: 'text' as 'json'});
   }
 
 
