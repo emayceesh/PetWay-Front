@@ -30,7 +30,7 @@ export class ProdutosListComponent {
   }
 
   delete(produtos: Produtos){
-    if(confirm('Deseja excluir este cliente?')){
+    if(confirm('Deseja excluir este produto?')){
 
       this.produtosService.deleteById(produtos.id).subscribe({
         next: (mensagem) => {

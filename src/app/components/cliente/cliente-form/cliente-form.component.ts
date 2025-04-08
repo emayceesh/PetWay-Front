@@ -17,10 +17,9 @@ export class ClienteFormComponent {
   cliente: Cliente = new Cliente();
 
   rotaAtividade = inject(ActivatedRoute);
-  routeador = inject(Router);
+  roteador = inject(Router);
   clienteService = inject(ClienteService);
-  roteador: any;
-  carroService: any;
+  
 
   constructor(){
     let id = this.rotaAtividade.snapshot.params['id'];

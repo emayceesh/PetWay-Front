@@ -1,1 +1,54 @@
-<p>produtos-form works!</p>
+<br />
+<div class="container">
+  <div class="row">
+    <div class="col-4"></div>
+
+    <div class="col-4">
+      <div class="card">
+        <div class="card-body centralizar">
+
+          <h2>Cadastro de Produtos</h2>
+          <br />
+
+          <form #formulario="ngForm" (ngSubmit)="save()">
+
+            <mdb-form-control>
+              <input mdbInput type="text" name="nome" class="form-control" [(ngModel)]="produtos.nome" />
+              <label mdbLabel class="form-label" for="nome">Nome do produto</label>
+            </mdb-form-control>
+            <br>
+            <mdb-form-control>
+                <input mdbInput type="text" name="quantidade" class="form-control" [(ngModel)]="produtos.quantidade" />
+                <label mdbLabel class="form-label" for="nome">Quantidade</label>
+            </mdb-form-control>
+            <br>
+            <mdb-form-control>
+                <input mdbInput type="text" name="preco" class="form-control" [(ngModel)]="produtos.preco" />
+                <label mdbLabel class="form-label" for="nome">Preço</label>
+            </mdb-form-control>
+            <br>
+            <mdb-form-control>
+                <input mdbInput type="text" name="categoria" class="form-control" [(ngModel)]="produtos.categoria" />
+                <label mdbLabel class="form-label" for="nome">Categoria</label>
+            </mdb-form-control>
+            <br>
+
+            @if(produtos.id > 0){
+            <button type="submit" [disabled]="!formulario.valid" class="btn btn-success btn-rounded">
+              <i class="fas fa-save fa-sm"></i> Atualizar
+            </button>
+            }@else {
+            <button type="submit" [disabled]="!formulario.valid" class="btn btn-success btn-rounded">
+              <i class="fas fa-save fa-sm"></i> Salvar
+            </button>
+            }
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col-4"></div>
+  </div>
+</div>
