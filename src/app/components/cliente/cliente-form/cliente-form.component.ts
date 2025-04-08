@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Cliente } from '../../../models/cliente';
 import { ClienteService } from '../../../services/cliente.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cliente-form',
@@ -35,7 +36,7 @@ export class ClienteFormComponent {
         this.cliente = clienteRetornado;
       },
       error: (erro) => {
-        alert(erro.error)
+        Swal.fire(erro.error, '', 'error');
       }
     });
   }
@@ -45,22 +46,22 @@ export class ClienteFormComponent {
       // UPDATE
       this.clienteService.update(this.cliente, this.cliente.id).subscribe({
         next: (mensagem) => {
-          alert(mensagem);
+          Swal.fire(mensagem, '', 'success');
           this.roteador.navigate(['admin/cliente']);
         },
         error: (erro) => {
-          alert(erro.error)
+          Swal.fire(erro.error, '', 'error');
         }
       });
     }else{
       // SAVE
       this.clienteService.save(this.cliente).subscribe({
         next: (mensagem) => {
-          alert(mensagem);
+          Swal.fire(mensagem, '', 'success');
           this.roteador.navigate(['admin/cliente']);
         },
         error: (erro) => {
-          alert(erro.error)
+          Swal.fire(erro.error, '', 'error');
         }
       });
 

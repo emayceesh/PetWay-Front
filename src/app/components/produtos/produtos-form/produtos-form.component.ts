@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Produtos } from '../../../models/produtos';
 import { ProdutosService } from '../../../services/produtos.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-produtos-form',
@@ -34,7 +35,7 @@ export class ProdutosFormComponent {
         this.produtos = produtoRetornado;
       },
       error: (erro) => {
-        alert(erro.error)
+        Swal.fire(erro.error, '', 'error');
       }
     });
   }
@@ -44,22 +45,22 @@ export class ProdutosFormComponent {
       // UPDATE
       this.produtosService.update(this.produtos, this.produtos.id).subscribe({
         next: (mensagem) => {
-          alert(mensagem);
+          Swal.fire(mensagem, '', 'success');
           this.roteador.navigate(['admin/produtos']);
         },
         error: (erro) => {
-          alert(erro.error)
+          Swal.fire(erro.error, '', 'error');
         }
       });
     }else{
       // SAVE
       this.produtosService.save(this.produtos).subscribe({
         next: (mensagem) => {
-          alert(mensagem);
+          Swal.fire(mensagem, '', 'success');
           this.roteador.navigate(['admin/produtos']);
         },
         error: (erro) => {
-          alert(erro.error)
+          Swal.fire(erro.error, '', 'error');
         }
       });
 

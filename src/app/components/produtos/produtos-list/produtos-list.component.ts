@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Produtos } from '../../../models/produtos';
 import { ProdutosService } from '../../../services/produtos.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-produtos-list',
@@ -30,19 +31,27 @@ export class ProdutosListComponent {
   }
 
   delete(produtos: Produtos){
-    if(confirm('Deseja excluir este produto?')){
+    Swal.fire({
+          title: 'Deseja deletar este produto permanentemente???',
+          showCancelButton: true,
+          confirmButtonText: 'Sim',
+          cancelButtonText: `Cancelar`,
+        }).then((result) => {
+          if (result.isConfirmed){
 
       this.produtosService.deleteById(produtos.id).subscribe({
         next: (mensagem) => {
-          alert(mensagem);
+          Swal.fire(mensagem, '', 'success');
           this.findAll();
         },
         error: (erro) => {
-          alert(erro.error)
+          Swal.fire(erro.error, '', 'error');
         }
       });
 
     }
-  }
+  });
+}
+
 
 }

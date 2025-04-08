@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Cliente } from '../../../models/cliente';
 import { ClienteService } from '../../../services/cliente.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cliente-list',
@@ -30,19 +31,25 @@ export class ClienteListComponent {
   }
 
   delete(cliente: Cliente){
-    if(confirm('Deseja excluir este cliente?')){
+    Swal.fire({
+      title: 'Deseja deletar este cliente permanentemente???',
+      showCancelButton: true,
+      confirmButtonText: 'Sim',
+      cancelButtonText: `Cancelar`,
+    }).then((result) => {
+      if (result.isConfirmed){
 
       this.clienteService.deleteById(cliente.id).subscribe({
         next: (mensagem) => {
-          alert(mensagem);
+          Swal.fire(mensagem, '', 'success');
           this.findAll();
         },
         error: (erro) => {
-          alert(erro.error)
+          Swal.fire(erro.error, '', 'error');
         }
       });
 
     }
+    });
   }
-
 }

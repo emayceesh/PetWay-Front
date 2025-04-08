@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Servicos } from '../../../models/servicos';
 import { ServicosService } from '../../../services/servicos.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-servicos-list',
@@ -24,7 +25,7 @@ export class ServicosListComponent {
         this.lista = listaRetornada;
       },
       error: (erro) => {
-        alert(erro.error);
+        Swal.fire(erro.error, '', 'error');
       }
     });
   }
@@ -34,11 +35,11 @@ export class ServicosListComponent {
 
       this.servicosService.deleteById(servicos.id).subscribe({
         next: (mensagem) => {
-          alert(mensagem);
+          Swal.fire(mensagem, '', 'success');
           this.findAll();
         },
         error: (erro) => {
-          alert(erro.error)
+          Swal.fire(erro.error, '', 'error');
         }
       });
 

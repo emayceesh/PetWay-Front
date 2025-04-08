@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Servicos } from '../../../models/servicos';
 import { ServicosService } from '../../../services/servicos.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-servicos-form',
@@ -34,7 +35,7 @@ export class ServicosFormComponent {
         this.servicos = servicoRetornado;
       },
       error: (erro) => {
-        alert(erro.error)
+        Swal.fire(erro.error, '', 'error');
       }
     });
   }
@@ -44,22 +45,22 @@ export class ServicosFormComponent {
       // UPDATE
       this.servicosService.update(this.servicos, this.servicos.id).subscribe({
         next: (mensagem) => {
-          alert(mensagem);
+          Swal.fire(mensagem, '', 'success');
           this.roteador.navigate(['admin/servicos']);
         },
         error: (erro) => {
-          alert(erro.error)
+          Swal.fire(erro.error, '', 'error');
         }
       });
     }else{
       // SAVE
       this.servicosService.save(this.servicos).subscribe({
         next: (mensagem) => {
-          alert(mensagem);
+          Swal.fire(mensagem, '', 'success');
           this.roteador.navigate(['admin/servicos']);
         },
         error: (erro) => {
-          alert(erro.error)
+          Swal.fire(erro.error, '', 'error');
         }
       });
 
