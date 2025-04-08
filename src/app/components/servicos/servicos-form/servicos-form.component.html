@@ -1,1 +1,61 @@
-<p>servicos-form works!</p>
+<br />
+<div class="container">
+  <div class="row">
+    <div class="col-4"></div>
+
+    <div class="col-4">
+      <div class="card">
+        <div class="card-body centralizar">
+
+          <h2>Cadastro de Servicos</h2>
+          <br />
+
+          <form #formulario="ngForm" (ngSubmit)="save()">
+
+            <mdb-form-control>
+              <input mdbInput type="text" name="nome" class="form-control" [(ngModel)]="servicos.nomeServico" />
+              <label mdbLabel class="form-label" for="nome">Nome do serviço</label>
+            </mdb-form-control>
+            <br>
+            <mdb-form-control>
+                <input mdbInput type="text" name="preco" class="form-control" [(ngModel)]="servicos.preco" />
+                <label mdbLabel class="form-label" for="nome">Preço</label>
+            </mdb-form-control>
+            <br>
+            <mdb-form-control>
+                <input mdbInput type="text" name="duracao" class="form-control" [(ngModel)]="servicos.duracao" />
+                <label mdbLabel class="form-label" for="nome">Duração</label>
+            </mdb-form-control>
+            <br>
+            <div class="mb-3">
+                <label class="form-check-label" for="disponivelSwitch"> Disponível?</label>
+                <div class="form-check form-switch">
+                    <input type="checkbox" class="form-check-input" role="switch" id="disponivelSwitch" name="disponivel" [(ngModel)]="servicos.disponivel"/>
+                </div>
+            </div>
+            <br>
+            <mdb-form-control>
+                <input mdbInput type="text" name="descricao" class="form-control" [(ngModel)]="servicos.descricao" />
+                <label mdbLabel class="form-label" for="nome">Descrição</label>
+            </mdb-form-control>
+            <br>
+
+            @if(servicos.id > 0){
+            <button type="submit" [disabled]="!formulario.valid" class="btn btn-success btn-rounded">
+              <i class="fas fa-save fa-sm"></i> Atualizar
+            </button>
+            }@else {
+            <button type="submit" [disabled]="!formulario.valid" class="btn btn-success btn-rounded">
+              <i class="fas fa-save fa-sm"></i> Salvar
+            </button>
+            }
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col-4"></div>
+  </div>
+</div>
