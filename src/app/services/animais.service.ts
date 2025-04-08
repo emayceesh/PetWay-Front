@@ -6,7 +6,7 @@ import { Animais } from '../models/animais';
 @Injectable({
   providedIn: 'root'
 })
-export class CarroService {
+export class AnimaisService {
 
   http = inject(HttpClient);
 

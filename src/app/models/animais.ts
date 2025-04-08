@@ -6,5 +6,4 @@ export class Animais {
     raca!: string;
     porte!: string; 
     cor!: string;
-
 }
