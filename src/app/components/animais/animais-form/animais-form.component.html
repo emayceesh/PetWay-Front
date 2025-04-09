@@ -23,9 +23,55 @@
       <label for="cor">Cor</label>
       <input type="text" id="cor" class="form-control" [(ngModel)]="animais.cor" name="cor">
     </div>
+
+    <div class="col-12 mb-3">
+      <label class="form-label">Cliente</label>
+      <div class="input-group">
+        
+        @if(animais.cliente) {
+          <input type="text" class="form-control" [value]="animais.cliente.nomeCliente" readonly />
+        } @else {
+          <input type="text" class="form-control" value="Nenhum cliente selecionado" readonly />
+        }
+        
+    
+        <button (click)="buscarCliente()" class="btn btn-outline-secondary" type="button">
+          Selecionar Cliente
+        </button>
+      </div>
+    </div>
+    
+
+    <ng-template #modalClientesList>
+      <div class="modal-header">
+        <h5 class="modal-title">Lista de Clientes</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modalRef.close()"></button>
+      </div>
+    
+      <div class="modal-body">
+        <ul class="list-group">
+          @if(listaClientes.length > 0) {
+            @for (cliente of listaClientes; track cliente.id) {
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span>{{ cliente.nomeCliente }}</span>
+                <button class="btn btn-sm btn-success" (click)="selecionarCliente(cliente)">
+                  Selecionar
+                </button>
+              </li>
+            }
+          } @else {
+            <li class="list-group-item">Nenhum cliente cadastrado.</li>
+          }
+        </ul>
+      </div>
+    </ng-template>
+    
+    
   
     <button type="submit" [disabled]="!formAnimal.valid" class="btn btn-success">
       {{ animais.id ? 'Atualizar' : 'Salvar' }}
     </button>
   </form>
+
+  
   

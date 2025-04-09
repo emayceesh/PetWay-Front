@@ -1,10 +1,13 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, TemplateRef, ViewChild } from '@angular/core';
 import Swal from 'sweetalert2';
 import { Animais } from '../../../models/animais';
 import { AnimaisService } from '../../../services/animais.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { FormsModule } from '@angular/forms';
+import { ClienteService } from '../../../services/cliente.service';
+import { Cliente } from '../../../models/cliente';
+import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
 
 @Component({
   selector: 'app-animais-form',
@@ -14,12 +17,22 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './animais-form.component.scss'
 })
 export class AnimaisFormComponent {
+
   @Input("animais") animais: Animais = new Animais();
   @Output("meuEvento") meuEvento = new EventEmitter();
+  
+  @ViewChild("modalClientesList") modalClientesList!: TemplateRef<any>;
+  @ViewChild("modalAgendamentosList") modalAgendamentosList!: TemplateRef<any>;
+  modalService = inject(MdbModalService); 
+  modalRef!: MdbModalRef<any>;
+  
+  listaClientes!: Cliente[];
+  clienteSelecionado!: Cliente["id"];
 
   rotaAtivida = inject(ActivatedRoute);
   roteador = inject(Router);
   AnimaisService = inject(AnimaisService);
+  ClienteService = inject(ClienteService);
 
   constructor(){
     let id = this.rotaAtivida.snapshot.params['id'];
@@ -45,7 +58,6 @@ export class AnimaisFormComponent {
       this.AnimaisService.update(this.animais, this.animais.id).subscribe({
         next: (mensagem) => {
           Swal.fire(mensagem, '', 'success');
-          // Se desejar não redirecionar:
           // this.roteador.navigate(['admin/animais']);
           this.meuEvento.emit("OK");
         },
@@ -55,10 +67,12 @@ export class AnimaisFormComponent {
       });
     } else {
       // SAVE
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+
       this.AnimaisService.save(this.animais).subscribe({
         next: (mensagem) => {
           Swal.fire(mensagem, '', 'success');
-          // this.roteador.navigate(['admin/animais']);
           this.meuEvento.emit("OK");
         },
         error: (erro) => {
@@ -67,4 +81,25 @@ export class AnimaisFormComponent {
       });
     }
   }
+
+  buscarCliente() {
+    this.ClienteService.findAll().subscribe({
+      next: (lista) => {
+        this.listaClientes = lista;
+        this.modalRef = this.modalService.open(this.modalClientesList, { modalClass: 'modal-lg' });
+        console.log(this.listaClientes, ClienteService);
+      },
+      error: (erro) => {
+        Swal.fire('Erro ao buscar clientes', erro.error, 'error');
+      }
+    });
+  }
+
+  selecionarCliente(cliente: Cliente) {
+    this.animais.cliente = cliente;
+    this.modalRef?.close();
+  }
+  
+  
+
 }
