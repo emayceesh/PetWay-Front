@@ -1,1 +1,45 @@
-<p>agendamento-list works!</p>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h3>Agendamentos - Clientes</h3>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nome do Cliente</th>
+            <th>Ação</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (cliente of clientes; track cliente.id) {
+            <tr>
+              <td>{{ cliente.id }}</td>
+              <td>{{ cliente.nomeCliente }}</td>
+              <td class="alinharADireita">
+                <button (click)="abrirModalAgendamento(cliente)" class="btn btn-success btn-rounded" mdbRippled>
+                  Agendar
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Único Template do Modal para Agendamento -->
+<ng-template #modalAgendamentoTemplate>
+  <div class="modal-header">
+    <h5 class="modal-title">
+      Agendamento para {{ clienteSelecionado.nomeCliente }}
+    </h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modalRef.close()"></button>
+  </div>
+  <div class="modal-body">
+    <app-agendamento-form
+      [cliente]="clienteSelecionado"
+      (agendamentoSalvo)="tratarAgendamentoSalvo($event)">
+    </app-agendamento-form>
+  </div>
+</ng-template>
