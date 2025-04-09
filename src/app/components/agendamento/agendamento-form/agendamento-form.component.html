@@ -1,38 +1,46 @@
-<!-- Modal -->
+<div class="modal-body">
+  <!-- Formulário de agendamento -->
+  <form #agendamentoForm="ngForm" (ngSubmit)="salvarAgendamento()">
+    
+    <div class="form-group mb-3">
+      <label>Cliente:</label>
+      <span class="form-text fw-bold">{{ cliente?.nomeCliente }}</span>
+    </div>
 
+    <div class="form-group mb-3">
+      <label for="dataHora">Data e Hora:</label>
+      <input type="datetime-local"
+             id="dataHora"
+             class="form-control"
+             [(ngModel)]="agendamento.dataHora"
+             name="dataHora"
+             required>
+    </div>
 
-      <div class="modal-body">
-        <!-- Formulário de agendamento -->
-        <form #agendamentoForm="ngForm" (ngSubmit)="salvarAgendamento()">
-          
-          <div class="form-group">
-            <label>Cliente:</label>
-            <span>{{ cliente?.nomeCliente }}</span>
-          </div>
+    <div class="form-group mb-4">
+      <label for="servico">Serviço:</label>
+      <select id="servico"
+              class="form-control"
+              [(ngModel)]="agendamento.servicoId"
+              name="servicoId"
+              required>
+        <option *ngFor="let servico of servicos" [value]="servico.id">
+          {{ servico.nomeServico }}
+        </option>
+      </select>
+    </div>
 
-          <div class="form-group">
-            <label for="dataHora">Data e Hora:</label>
-            <input type="datetime-local" id="dataHora" class="form-control"
-                   [(ngModel)]="agendamento.dataHora" name="dataHora" required>
-          </div>
+    <div class="text-end">
+      <button type="submit"
+              [disabled]="!agendamentoForm.valid"
+              class="btn btn-success">
+        Agendar
+      </button>
+    </div>
+  </form>
 
-          <div class="form-group">
-            <label for="servico">Serviço:</label>
-            <select id="servico" class="form-control"
-                    [(ngModel)]="agendamento.servicoId" name="servicoId" required>
-              <option *ngFor="let servico of servicos" [value]="servico.id">
-                {{ servico.nomeServico }}
-              </option>
-            </select>
-          </div>
-
-          <div class="text-right">
-            <button type="submit" [disabled]="!agendamentoForm.valid" class="btn btn-success">
-              Agendar
-            </button>
-          </div>
-
-        </form>
-      </div>
-
-   
+  <!-- Mensagem de sucesso -->
+  <div *ngIf="mensagemSucesso" class="alert alert-success mt-3 animate__animated animate__fadeIn">
+    {{ mensagemSucesso }}
+  </div>
+</div>

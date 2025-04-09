@@ -25,6 +25,7 @@ export class AgendamentoFormComponent implements OnInit, OnChanges {
   };
 
   servicos: Servicos[] = [];
+  mensagemSucesso: string | null = null;
 
   constructor(
     public agendamentoService: AgendamentoService,
@@ -32,12 +33,10 @@ export class AgendamentoFormComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit(): void {
-    // Carrega os serviços assim que o componente inicia.
     this.carregarServicos();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    // Se o input "cliente" mudou e está definido, atualiza o clienteId do agendamento.
     if (changes['cliente'] && this.cliente) {
       this.agendamento.clienteId = this.cliente.id;
     }
@@ -58,26 +57,33 @@ export class AgendamentoFormComponent implements OnInit, OnChanges {
     if (this.agendamento.dataHora && this.agendamento.dataHora.length === 16) {
       this.agendamento.dataHora = this.agendamento.dataHora + ":00";
     }
-  
+
     const agendamentoPayload: any = {
       dataHora: this.agendamento.dataHora,
       cliente: { id: this.agendamento.clienteId },
       servicos: [{ id: Number(this.agendamento.servicoId) }]
     };
-    
+
     if (this.agendamento.observacoes) {
       agendamentoPayload.observacoes = this.agendamento.observacoes;
     }
-    console.log('Payload enviado:', agendamentoPayload);
-    this.agendamentoService.save(agendamentoPayload as any).subscribe({
+
+    this.agendamentoService.save(agendamentoPayload).subscribe({
       next: (mensagem) => {
+        this.mensagemSucesso = '✅ Agendamento salvo com sucesso!';
         this.agendamentoSalvo.emit(mensagem);
+
+        setTimeout(() => {
+          this.mensagemSucesso = null;
+        }, 5000);
+
+        // Reset opcional:
+        this.agendamento.dataHora = "";
+        this.agendamento.servicoId = 0;
       },
       error: (erro) => {
         console.error('Erro ao salvar agendamento:', erro);
       }
     });
   }
-  
-  
 }

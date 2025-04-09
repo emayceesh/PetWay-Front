@@ -1,13 +1,14 @@
 <div class="container">
   <div class="row">
     <div class="col-12">
-      <h3>Agendamentos - Clientes</h3>
+      <h3>👥 Agendamentos - Clientes</h3>
+
       <table class="table table-striped">
         <thead>
           <tr>
             <th>ID</th>
             <th>Nome do Cliente</th>
-            <th>Ação</th>
+            <th class="text-end">Ação</th>
           </tr>
         </thead>
         <tbody>
@@ -15,9 +16,9 @@
             <tr>
               <td>{{ cliente.id }}</td>
               <td>{{ cliente.nomeCliente }}</td>
-              <td class="alinharADireita">
-                <button (click)="abrirModalAgendamento(cliente)" class="btn btn-success btn-rounded" mdbRippled>
-                  Agendar
+              <td class="text-end">
+                <button (click)="abrirModalAgendamento(cliente)" class="btn btn-success btn-rounded" mdbRipple>
+                  📅 Agendar
                 </button>
               </td>
             </tr>
@@ -28,14 +29,15 @@
   </div>
 </div>
 
-<!-- Único Template do Modal para Agendamento -->
+<!-- Modal de Agendamento -->
 <ng-template #modalAgendamentoTemplate>
   <div class="modal-header">
     <h5 class="modal-title">
       Agendamento para {{ clienteSelecionado.nomeCliente }}
     </h5>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modalRef.close()"></button>
+    <button type="button" class="btn-close" aria-label="Fechar" (click)="modalRef.close()"></button>
   </div>
+
   <div class="modal-body">
     <app-agendamento-form
       [cliente]="clienteSelecionado"
