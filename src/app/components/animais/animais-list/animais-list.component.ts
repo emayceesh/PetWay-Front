@@ -1,4 +1,4 @@
-import { Component, inject, TemplateRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, TemplateRef, ViewChild } from '@angular/core';
 import { Animais } from '../../../models/animais';
 import { AnimaisService } from '../../../services/animais.service';
 import { FormsModule } from '@angular/forms';
@@ -18,6 +18,9 @@ export class AnimaisListComponent {
   lista: Animais[] = [];
   pesquisa: string = "";
   animaisEdit!: Animais; 
+
+  @Input("modoModal") modoModal: boolean = false;
+  @Output("meuEvento") meuEvento = new EventEmitter();
 
   animaisService = inject(AnimaisService);
 
@@ -95,4 +98,9 @@ export class AnimaisListComponent {
     this.findAll();        // atualiza a lista após a operação
     this.modalRef.close(); // fecha o modal
   }
+
+  selecionar(animais: Animais){
+    this.meuEvento.emit(animais); //esse disparo vai acionar o método do FORM
+  }
+
 }

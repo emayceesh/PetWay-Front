@@ -38,6 +38,37 @@
             </mdb-form-control>
             <br>
 
+            <div class="col-6"><br>
+              <div class="input-group mb-3">
+                @if(cliente.animais){
+                  <div class="border w-100 p-2 text-primary"> @for (animais of cliente.animais; track $index) { 
+                    <div>{{ animais.nomeAnimal }}</div>
+                    }
+                  </div>
+                  
+                <button (click)="buscarAnimal()" class="btn btn-secondary" type="button" mdbRipple
+                  rippleColor="danger">
+                  Trocar Animal
+                </button>
+                }@else{
+                <div class="border w-100 p-2">Nenhuma animal selecionado!</div>
+                <button (click)="buscarAnimal()" class="btn btn-secondary" type="button" mdbRipple
+                  rippleColor="danger">
+                  Buscar Animal
+                </button>
+                }
+              </div>
+            </div>
+
+            <div class="col-6"><br>
+              <select [compareWith]="compareId" class="form-control" name="animais" [(ngModel)]="cliente.animais">
+                <option [value]="undefined">:: Outra forma de N para 1 aqui</option>
+                @for (animais of listaAnimais; track $index) {
+                <option [ngValue]="animais">{{animais.nomeAnimal}}</option>
+                }
+              </select>
+            </div>
+
             @if(cliente.id > 0){
             <button type="submit" [disabled]="!formulario.valid" class="btn btn-success btn-rounded">
               <i class="fas fa-save fa-sm"></i> Atualizar
@@ -57,3 +88,31 @@
     <div class="col-4"></div>
   </div>
 </div>
+
+<ng-template #modalAnimaisList>
+  <div class="modal-header">
+    <h5 class="modal-title">Lista de Animais</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modalRef.close()"></button>
+  </div>
+
+  <div class="modal-body">
+    <div class="d-flex justify-content-end mb-2">
+      <button class="btn btn-primary" (click)="novoAnimal()">+ Novo Animal</button>
+    </div>
+
+    <ul class="list-group">
+      @if(listaAnimais.length > 0) {
+        @for (animais of listaAnimais; track animais.id) {
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>{{ animais.nomeAnimal }}</span>
+            <button class="btn btn-sm btn-success" (click)="selecionarAnimal(animais)">
+              Selecionar
+            </button>
+          </li>
+        }
+      } @else {
+        <li class="list-group-item">Nenhum animal cadastrado.</li>
+      }
+    </ul>
+  </div>
+</ng-template>

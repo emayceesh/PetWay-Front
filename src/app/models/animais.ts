@@ -1,3 +1,5 @@
+import { Cliente } from "./cliente";
+
 export class Animais {
 
     id!: number;
@@ -6,4 +8,5 @@ export class Animais {
     raca!: string;
     porte!: string; 
     cor!: string;
+    cliente!: Cliente;
 }

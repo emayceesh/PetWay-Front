@@ -1,3 +1,6 @@
+import { Agendamento } from "./agendamento";
+import { Animais } from "./animais";
+
 export class Cliente {
     id!: number;
     nomeCliente!: string;
@@ -6,4 +9,6 @@ export class Cliente {
     telefone!: string;
     endereco!: string;
     cadastroCompleto!: boolean;
+    animais!: Animais [];
+    agendamentos!: Agendamento[];
 }
