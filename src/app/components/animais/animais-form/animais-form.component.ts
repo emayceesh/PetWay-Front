@@ -18,6 +18,7 @@ import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
 })
 export class AnimaisFormComponent {
 
+  @Input() modoEdicao: boolean = false;
   @Input("animais") animais: Animais = new Animais();
   @Output("meuEvento") meuEvento = new EventEmitter();
   
@@ -28,6 +29,7 @@ export class AnimaisFormComponent {
   
   listaClientes!: Cliente[];
   clienteSelecionado!: Cliente["id"];
+
 
   rotaAtivida = inject(ActivatedRoute);
   roteador = inject(Router);
@@ -52,10 +54,17 @@ export class AnimaisFormComponent {
     });
   }
 
+  
+
   save(){
     if(this.animais.id){
       // UPDATE
-      this.AnimaisService.update(this.animais, this.animais.id).subscribe({
+      const animalParaAtualizar = {//envia ID do cliente e não cliente inteiro
+        ...this.animais,
+        cliente: this.animais.cliente ? { id: this.animais.cliente.id } as Cliente : null as any
+      };
+      
+      this.AnimaisService.update(animalParaAtualizar, this.animais.id).subscribe({
         next: (mensagem) => {
           Swal.fire(mensagem, '', 'success');
           // this.roteador.navigate(['admin/animais']);
@@ -67,9 +76,6 @@ export class AnimaisFormComponent {
       });
     } else {
       // SAVE
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
-
       this.AnimaisService.save(this.animais).subscribe({
         next: (mensagem) => {
           Swal.fire(mensagem, '', 'success');
@@ -96,8 +102,29 @@ export class AnimaisFormComponent {
   }
 
   selecionarCliente(cliente: Cliente) {
-    this.animais.cliente = cliente;
+    this.animais.cliente = { id: cliente.id } as Cliente; 
+    this.clienteSelecionado = cliente.id;
     this.modalRef?.close();
+  }
+
+  get nomeClienteSelecionado(): string {
+    if (!this.listaClientes || !this.animais.cliente) return 'Cliente não encontrado';
+  
+    const cliente = this.listaClientes.find(c => c.id === this.animais.cliente.id);
+    return cliente ? cliente.nomeCliente : 'Cliente não encontrado';
+  }
+  
+  ngOnInit(): void {
+    if (this.modoEdicao) {
+      this.ClienteService.findAll().subscribe({
+        next: (clientes) => {
+          this.listaClientes = clientes;
+        },
+        error: (erro) => {
+          console.error('Erro ao carregar clientes:', erro);
+        }
+      });
+    }
   }
   
   

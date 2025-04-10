@@ -29,15 +29,17 @@
       <div class="input-group">
         
         @if(animais.cliente) {
-          <input type="text" class="form-control" [value]="animais.cliente.nomeCliente" readonly />
+          <input type="text" class="form-control" 
+          [value]="nomeClienteSelecionado" readonly/>
         } @else {
           <input type="text" class="form-control" value="Nenhum cliente selecionado" readonly />
         }
         
-    
+        @if (!modoEdicao) {
         <button (click)="buscarCliente()" class="btn btn-outline-secondary" type="button">
           Selecionar Cliente
         </button>
+        }
       </div>
     </div>
     

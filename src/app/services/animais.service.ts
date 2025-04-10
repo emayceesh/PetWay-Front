@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Animais } from '../models/animais';
+import { Cliente } from '../models/cliente';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class AnimaisService {
   findAll(): Observable<Animais[]>{
     return this.http.get<Animais[]>(this.API+'/findAll');
   }
-//verificar nomeclarura mais tarde 
+   
   findById(id: number): Observable<Animais>{
     return this.http.get<Animais>(this.API+'/findById/'+id);
   }

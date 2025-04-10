@@ -66,7 +66,7 @@ export class AnimaisListComponent {
 
   findByNome(){
     if (!this.pesquisa || this.pesquisa.trim() === '') {
-      this.findAll(); // volta com todos se pesquisa estiver vazia
+      this.findAll();
       return;
     }
   
@@ -80,27 +80,22 @@ export class AnimaisListComponent {
     });
   }
 
-  // Método chamado quando o usuário clica em "Novo"
   new(){
     this.animaisEdit = new Animais();  // objeto novo para cadastro
     this.modalRef = this.modalService.open(this.modalAnimaisForm, { modalClass: 'modal-xl' });
   }
 
-  // Método chamado para editar; recarrega o objeto
   edit(animal: Animais){
-    // Clone para evitar alteração direta na lista, se necessário:
     this.animaisEdit = { ...animal };
     this.modalRef = this.modalService.open(this.modalAnimaisForm, { modalClass: 'modal-xl' });
   }
-
-  // Método para tratar o evento emitido pelo formulário quando salvar/atualizar
   meuEventoTratamento(mensagem: any){
-    this.findAll();        // atualiza a lista após a operação
-    this.modalRef.close(); // fecha o modal
+    this.findAll();        
+    this.modalRef.close(); 
   }
 
   selecionar(animais: Animais){
-    this.meuEvento.emit(animais); //esse disparo vai acionar o método do FORM
+    this.meuEvento.emit(animais); 
   }
 
 }
