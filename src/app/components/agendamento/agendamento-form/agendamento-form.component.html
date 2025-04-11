@@ -1,7 +1,5 @@
 <div class="modal-body">
-  <!-- Formulário de agendamento -->
   <form #agendamentoForm="ngForm" (ngSubmit)="salvarAgendamento()">
-    
     <div class="form-group mb-3">
       <label>Cliente:</label>
       <span class="form-text fw-bold">{{ cliente?.nomeCliente }}</span>
@@ -21,7 +19,7 @@
       <label for="servico">Serviço:</label>
       <select id="servico"
               class="form-control"
-              [(ngModel)]="agendamento.servicoId"
+              [(ngModel)]="agendamento.cliente"
               name="servicoId"
               required>
         <option *ngFor="let servico of servicos" [value]="servico.id">
@@ -39,7 +37,6 @@
     </div>
   </form>
 
-  <!-- Mensagem de sucesso -->
   <div *ngIf="mensagemSucesso" class="alert alert-success mt-3 animate__animated animate__fadeIn">
     {{ mensagemSucesso }}
   </div>

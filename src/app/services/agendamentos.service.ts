@@ -30,11 +30,19 @@ export class AgendamentoService {
     return this.http.post<string>(`${this.API}/save`, agendamento, { responseType: 'text' as 'json' });
   }
 
-  update(agendamento: Agendamento, id: number): Observable<string> {
-    return this.http.put<string>(`${this.API}/update/${id}`, agendamento, { responseType: 'text' as 'json' });
-  }
+  update(agendamento: any, id: number): Observable<string> {
+    // Garante que o ID no corpo seja o mesmo da URL
+    agendamento.id = id;
+    return this.http.put<string>(`${this.API}/update/${id}`, agendamento, { 
+        responseType: 'text' as 'json' 
+    });
+}
 
   deleteById(id: number): Observable<string> {
     return this.http.delete<string>(`${this.API}/delete/${id}`, { responseType: 'text' as 'json' });
   }
+  buscarEntreDatas(start: string, end: string): Observable<Agendamento[]> {
+    return this.http.get<Agendamento[]>(`${this.API}/buscarEntreDatas?startDate=${start}&endDate=${end}`);
+  }
+  
 }

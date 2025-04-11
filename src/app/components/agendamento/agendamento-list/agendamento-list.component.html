@@ -1,35 +1,98 @@
 <div class="container">
   <div class="row">
-    <div class="col-12">
-      <h3>👥 Agendamentos - Clientes</h3>
-
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nome do Cliente</th>
-            <th class="text-end">Ação</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (cliente of clientes; track cliente.id) {
-            <tr>
-              <td>{{ cliente.id }}</td>
-              <td>{{ cliente.nomeCliente }}</td>
-              <td class="text-end">
-                <button (click)="abrirModalAgendamento(cliente)" class="btn btn-success btn-rounded" mdbRipple>
-                  📅 Agendar
-                </button>
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
+    <!-- Card de Clientes para Agendamento -->
+    <div class="col-12 mb-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h3 class="card-title">👥 Agendamentos - Clientes</h3>
+          <div class="table-responsive mt-3">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nome do Cliente</th>
+                  <th class="text-end">Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (cliente of clientes; track cliente.id) {
+                  <tr>
+                    <td>{{ cliente.id }}</td>
+                    <td>{{ cliente.nomeCliente }}</td>
+                    <td class="text-end">
+                      <div class="d-inline-flex gap-2">
+                        <button (click)="abrirModalAgendamento(cliente)" class="btn btn-success btn-sm" mdbRipple>
+                          📅 Agendar
+                        </button>
+                        <button (click)="editarAgendamento(cliente)" class="btn btn-outline-primary btn-sm" mdbRipple>
+                          ✏️ Editar
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <!-- Card de Agendamentos Cancelados ou Ativos (Clientes Agendados) -->
+    @if (agendamentosCriados.length > 0) {
+      <div class="col-12">
+        <div class="card shadow-sm border-success mb-4">
+          <div class="card-body">
+            <h5 class="card-title text-success">📅 Clientes Agendados</h5>
+            <ul class="list-group list-group-flush mt-3">
+              @for (agendamento of agendamentosCriados; track agendamento.id) {
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <span>{{ agendamento.nomeCliente }}</span>
+                  <div class="d-inline-flex gap-2">
+                    <button class="btn btn-outline-primary btn-sm" (click)="editarAgendamento(agendamento)">
+                      ✏️ Editar
+                    </button>
+                    <button class="btn btn-outline-danger btn-sm" (click)="cancelarAgendamento(agendamento)">
+                      ❌ Cancelar
+                    </button>
+                  </div>
+                </li>
+              }
+            </ul>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Card de Busca por Período -->
+    <div class="col-12 mb-4">
+      <div class="card shadow-sm border-info">
+        <div class="card-body">
+          <h5 class="card-title text-info">🔍 Buscar Agendamentos por Período</h5>
+          <div class="row mt-3">
+            <div class="col-md-5">
+              <label for="startDate">Data/Hora Início:</label>
+              <input type="datetime-local" id="startDate" class="form-control" [(ngModel)]="searchStartDate" name="startDate">
+            </div>
+            <div class="col-md-5">
+              <label for="endDate">Data/Hora Fim:</label>
+              <input type="datetime-local" id="endDate" class="form-control" [(ngModel)]="searchEndDate" name="endDate">
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+              <button class="btn btn-outline-info w-100" (click)="buscarAgendamentosPorPeriodo()">Buscar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Aqui pode ser exibida uma lista dos agendamentos encontrados via busca,
+         caso você queira separar da lista geral. Por enquanto, estamos atualizando
+         a lista de agendamentos (agendamentosCriados) diretamente. -->
   </div>
 </div>
 
-<!-- Modal de Agendamento -->
+<!-- Template do Modal para Agendamento -->
 <ng-template #modalAgendamentoTemplate>
   <div class="modal-header">
     <h5 class="modal-title">
@@ -37,11 +100,13 @@
     </h5>
     <button type="button" class="btn-close" aria-label="Fechar" (click)="modalRef.close()"></button>
   </div>
-
   <div class="modal-body">
-    <app-agendamento-form
-      [cliente]="clienteSelecionado"
-      (agendamentoSalvo)="tratarAgendamentoSalvo($event)">
-    </app-agendamento-form>
+    @if (mostrarFormularioAgendamento) {
+      <app-agendamento-form
+        [cliente]="clienteSelecionado"
+        [agendamentoParaEdicao]="agendamentoParaEdicao"
+        (agendamentoSalvo)="tratarAgendamentoSalvo($event)">
+      </app-agendamento-form>
+    }
   </div>
 </ng-template>

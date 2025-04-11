@@ -16,20 +16,26 @@ import { ServicosService } from '../../../services/servicos.service';
 })
 export class AgendamentoFormComponent implements OnInit, OnChanges {
   @Input() cliente: any;
+  @Input() agendamentoParaEdicao: any = null;
   @Output() agendamentoSalvo = new EventEmitter<any>();
 
+  // O objeto agendamento agora segue o formato que o backend espera:
+  // - cliente: objeto com id  
+  // - servicos: array com um objeto {id: number}  
+  // - dataHora: string já no formato "yyyy-MM-dd HH:mm:ss"  
+  // - status: string (default "agendado")
   agendamento: Agendamento = {
-    clienteId: 0,
-    dataHora: "",
-    servicoId: 0
+    cliente: { id: 0 },
+    servicos: [{ id: 0 }],
+    dataHora: '',
+    status: 'agendado'
   };
 
   servicos: Servicos[] = [];
   mensagemSucesso: string | null = null;
 
   constructor(
-    public agendamentoService: AgendamentoService,
-    public servicosService: ServicosService
+    private servicosService: ServicosService
   ) {}
 
   ngOnInit(): void {
@@ -38,52 +44,34 @@ export class AgendamentoFormComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['cliente'] && this.cliente) {
-      this.agendamento.clienteId = this.cliente.id;
+      this.agendamento.cliente.id = this.cliente.id;
+    }
+
+    if (changes['agendamentoParaEdicao'] && this.agendamentoParaEdicao) {
+      // Preenche os dados do agendamento para edição
+      const ag = this.agendamentoParaEdicao;
+      this.agendamento = {
+        cliente: { id: this.cliente?.id ?? 0 },
+        dataHora: ag.dataHora, // Assume que a dataHora já esteja no formato correto
+        servicos: [{ id: ag.servicoId }],
+        status: ag.status || 'agendado'
+      };
     }
   }
 
   carregarServicos(): void {
     this.servicosService.findAll().subscribe({
-      next: (lista: Servicos[]) => {
-        this.servicos = lista;
-      },
-      error: (erro: any) => {
-        console.error('Erro ao carregar serviços:', erro);
-      }
+      next: (res: Servicos[]) => this.servicos = res,
+      error: (err) => console.error('Erro ao carregar serviços', err)
     });
   }
 
   salvarAgendamento(): void {
-    if (this.agendamento.dataHora && this.agendamento.dataHora.length === 16) {
-      this.agendamento.dataHora = this.agendamento.dataHora + ":00";
-    }
-
-    const agendamentoPayload: any = {
-      dataHora: this.agendamento.dataHora,
-      cliente: { id: this.agendamento.clienteId },
-      servicos: [{ id: Number(this.agendamento.servicoId) }]
-    };
-
-    if (this.agendamento.observacoes) {
-      agendamentoPayload.observacoes = this.agendamento.observacoes;
-    }
-
-    this.agendamentoService.save(agendamentoPayload).subscribe({
-      next: (mensagem) => {
-        this.mensagemSucesso = '✅ Agendamento salvo com sucesso!';
-        this.agendamentoSalvo.emit(mensagem);
-
-        setTimeout(() => {
-          this.mensagemSucesso = null;
-        }, 5000);
-
-        // Reset opcional:
-        this.agendamento.dataHora = "";
-        this.agendamento.servicoId = 0;
-      },
-      error: (erro) => {
-        console.error('Erro ao salvar agendamento:', erro);
-      }
-    });
+    console.log('Enviando do formulário:', this.agendamento);
+    this.agendamentoSalvo.emit(this.agendamento);
+    this.mensagemSucesso = 'Agendamento enviado com sucesso!';
+    setTimeout(() => this.mensagemSucesso = null, 3000);
+    // Reset opcional
+    this.agendamento = { cliente: { id: 0 }, servicos: [{ id: 0 }], dataHora: '', status: 'agendado' };
   }
 }
