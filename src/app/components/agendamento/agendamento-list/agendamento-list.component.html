@@ -1,5 +1,27 @@
 <div class="container">
   <div class="row">
+    <!-- Card de Busca por Período (NO TOPO) -->
+    <div class="col-12 mb-4">
+      <div class="card shadow-sm border-info">
+        <div class="card-body">
+          <h5 class="card-title text-info">🔍 Buscar Agendamentos por Período</h5>
+          <div class="row mt-3">
+            <div class="col-md-5">
+              <label for="startDate">Data/Hora Início:</label>
+              <input type="datetime-local" id="startDate" class="form-control" [(ngModel)]="searchStartDate" name="startDate">
+            </div>
+            <div class="col-md-5">
+              <label for="endDate">Data/Hora Fim:</label>
+              <input type="datetime-local" id="endDate" class="form-control" [(ngModel)]="searchEndDate" name="endDate">
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+              <button class="btn btn-outline-info w-100" (click)="buscarAgendamentosPorPeriodo()">Buscar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Card de Clientes para Agendamento -->
     <div class="col-12 mb-4">
       <div class="card shadow-sm">
@@ -24,9 +46,6 @@
                         <button (click)="abrirModalAgendamento(cliente)" class="btn btn-success btn-sm" mdbRipple>
                           📅 Agendar
                         </button>
-                        <button (click)="editarAgendamento(cliente)" class="btn btn-outline-primary btn-sm" mdbRipple>
-                          ✏️ Editar
-                        </button>
                       </div>
                     </td>
                   </tr>
@@ -38,7 +57,7 @@
       </div>
     </div>
 
-    <!-- Card de Agendamentos Cancelados ou Ativos (Clientes Agendados) -->
+    <!-- Card de Agendamentos Criados (Clientes Agendados) -->
     @if (agendamentosCriados.length > 0) {
       <div class="col-12">
         <div class="card shadow-sm border-success mb-4">
@@ -49,11 +68,11 @@
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                   <span>{{ agendamento.nomeCliente }}</span>
                   <div class="d-inline-flex gap-2">
-                    <button class="btn btn-outline-primary btn-sm" (click)="editarAgendamento(agendamento)">
-                      ✏️ Editar
-                    </button>
                     <button class="btn btn-outline-danger btn-sm" (click)="cancelarAgendamento(agendamento)">
                       ❌ Cancelar
+                    </button>
+                    <button class="btn btn-outline-primary btn-sm" (click)="editarAgendamento(agendamento)">
+                      ✏️ Editar
                     </button>
                   </div>
                 </li>
@@ -63,35 +82,9 @@
         </div>
       </div>
     }
-
-    <!-- Card de Busca por Período -->
-    <div class="col-12 mb-4">
-      <div class="card shadow-sm border-info">
-        <div class="card-body">
-          <h5 class="card-title text-info">🔍 Buscar Agendamentos por Período</h5>
-          <div class="row mt-3">
-            <div class="col-md-5">
-              <label for="startDate">Data/Hora Início:</label>
-              <input type="datetime-local" id="startDate" class="form-control" [(ngModel)]="searchStartDate" name="startDate">
-            </div>
-            <div class="col-md-5">
-              <label for="endDate">Data/Hora Fim:</label>
-              <input type="datetime-local" id="endDate" class="form-control" [(ngModel)]="searchEndDate" name="endDate">
-            </div>
-            <div class="col-md-2 d-flex align-items-end">
-              <button class="btn btn-outline-info w-100" (click)="buscarAgendamentosPorPeriodo()">Buscar</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Aqui pode ser exibida uma lista dos agendamentos encontrados via busca,
-         caso você queira separar da lista geral. Por enquanto, estamos atualizando
-         a lista de agendamentos (agendamentosCriados) diretamente. -->
   </div>
 </div>
-
+ 
 <!-- Template do Modal para Agendamento -->
 <ng-template #modalAgendamentoTemplate>
   <div class="modal-header">

@@ -19,13 +19,12 @@ export class AgendamentosListComponent implements OnInit {
   clientes: Cliente[] = [];
   clienteSelecionado!: Cliente;
   agendamentosCriados: any[] = [];
-  agendamentosEncontrados: any[] = []; // Lista que armazenará os resultados da busca por período
+  agendamentosEncontrados: any[] = [];
   mostrarFormularioAgendamento = false;
   modalRef!: MdbModalRef<AgendamentoFormComponent>;
-
   agendamentoParaEdicao: any = null;
 
-  // Campos para busca por período (usando datetime-local que retorna string no formato yyyy-MM-ddTHH:mm)
+  // Campos para busca por período (em formato "yyyy-MM-ddTHH:mm")
   searchStartDate: string = "";
   searchEndDate: string = "";
 
@@ -48,7 +47,7 @@ export class AgendamentosListComponent implements OnInit {
 
   abrirModalAgendamento(cliente: Cliente): void {
     this.clienteSelecionado = cliente;
-    this.agendamentoParaEdicao = null;
+    this.agendamentoParaEdicao = null; // para criação nova
     this.mostrarFormularioAgendamento = false;
     setTimeout(() => {
       this.mostrarFormularioAgendamento = true;
@@ -57,16 +56,20 @@ export class AgendamentosListComponent implements OnInit {
   }
 
   tratarAgendamentoSalvo(event: any): void {
-    // Converte servicoId e clienteId para number e formata dataHora para "yyyy-MM-dd HH:mm:ss"
-    const servicoIdConvertido = Number(event.servicoId);
-    const clienteIdConvertido = Number(event.clienteId);
+    console.log('AgendamentosListComponent - evento recebido no salvar:', event);
+    // Se o formulário não enviar um cliente válido, usa o clienteSelecionado
+    const clienteIdConvertido = event.cliente && event.cliente.id ? Number(event.cliente.id) : Number(this.clienteSelecionado.id);
+    const servicoIdConvertido = event.servicos && event.servicos.length > 0 && event.servicos[0].id
+      ? Number(event.servicos[0].id)
+      : 0;
+    
+    // Se dataHora estiver no formato "yyyy-MM-ddTHH:mm", complementa com ":00"
     let dataHoraFormatada = event.dataHora;
-    if (dataHoraFormatada && dataHoraFormatada.length === 16) {
-      dataHoraFormatada = dataHoraFormatada.replace('T', ' ') + ':00';
+    if (dataHoraFormatada && dataHoraFormatada.indexOf('T') !== -1 && dataHoraFormatada.length === 16) {
+      dataHoraFormatada = dataHoraFormatada + ':00';
     }
-  
+
     if (this.agendamentoParaEdicao) {
-      // Atualização (edição)
       const id = this.agendamentoParaEdicao.agendamentoId || this.agendamentoParaEdicao.id;
       const body = {
         agendamentoId: id,
@@ -75,7 +78,6 @@ export class AgendamentosListComponent implements OnInit {
         dataHora: dataHoraFormatada
       };
       console.log('Payload enviado pro backend para update:', body);
-  
       this.agendamentoService.update(body, id).subscribe({
         next: (mensagem) => {
           console.log('Agendamento atualizado:', mensagem);
@@ -91,9 +93,7 @@ export class AgendamentosListComponent implements OnInit {
           alert('Erro ao atualizar agendamento. Tente novamente.');
         }
       });
-  
     } else {
-      // Criação de novo agendamento
       const novoAgendamento = {
         ...this.clienteSelecionado,
         ...event,
@@ -102,7 +102,7 @@ export class AgendamentosListComponent implements OnInit {
         clienteId: clienteIdConvertido,
         dataHora: dataHoraFormatada
       };
-  
+
       if (!this.agendamentosCriados.some(item => item.id === novoAgendamento.id)) {
         this.agendamentosCriados.push(novoAgendamento);
       }
@@ -115,18 +115,14 @@ export class AgendamentosListComponent implements OnInit {
       console.error('Nenhum agendamento foi passado para cancelamento!');
       return;
     }
-  
     const idParaDeletar = agendamento.agendamentoId || agendamento.id;
-  
     if (!idParaDeletar) {
       console.error('Agendamento sem ID válido. Dados recebidos:', agendamento);
       alert('Erro ao cancelar: agendamento sem ID válido.');
       return;
     }
-  
     console.log('Agendamento recebido para cancelamento:', agendamento);
     console.log('Enviando deleção com ID:', idParaDeletar);
-  
     this.agendamentoService.deleteById(idParaDeletar).subscribe({
       next: (mensagem) => {
         console.log('Agendamento deletado no backend:', mensagem);
@@ -143,9 +139,11 @@ export class AgendamentosListComponent implements OnInit {
   }
 
   editarAgendamento(agendamento: any): void {
-    this.clienteSelecionado = agendamento;
-    this.agendamentoParaEdicao = agendamento;
-  
+    // Se o agendamento tiver o objeto "cliente", use-o; caso contrário, utiliza a propriedade "clienteId"
+    this.clienteSelecionado = agendamento.cliente ?? { id: agendamento.clienteId };
+    // Força nova referência para atualizar o formulário
+    this.agendamentoParaEdicao = { ...agendamento };
+
     this.mostrarFormularioAgendamento = false;
     setTimeout(() => {
       this.mostrarFormularioAgendamento = true;
@@ -153,21 +151,15 @@ export class AgendamentosListComponent implements OnInit {
     });
   }
 
-  /**
-   * Busca agendamentos entre datas (período)
-   */
   buscarAgendamentosPorPeriodo(): void {
     if (this.searchStartDate && this.searchEndDate) {
-      // Adiciona ":00" para incluir os segundos, se necessário.
       const start = this.searchStartDate + ":00";
       const end = this.searchEndDate + ":00";
       console.log(`Buscando agendamentos entre ${start} e ${end}...`);
       this.agendamentoService.buscarEntreDatas(start, end).subscribe({
         next: (result) => {
           console.log('Agendamentos encontrados:', result);
-          // Aqui você pode armazenar os resultados em outra variável,
-          // ou atualizar a lista de agendamentos exibida.
-          this.agendamentosCriados = result;
+          this.agendamentosEncontrados = result;
         },
         error: (erro) => {
           console.error('Erro ao buscar agendamentos entre datas:', erro);
@@ -178,7 +170,5 @@ export class AgendamentosListComponent implements OnInit {
       alert('Por favor, preencha as datas de início e fim para a busca.');
     }
   }
-
-  // Variáveis para busca por período
- 
 }
+ 

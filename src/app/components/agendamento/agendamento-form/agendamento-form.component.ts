@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnInit, OnChanges, Output, SimpleChange
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { AgendamentoService } from '../../../services/agendamentos.service';
 import { Agendamento } from '../../../models/agendamento';
 import { Servicos } from '../../../models/servicos';
 import { ServicosService } from '../../../services/servicos.service';
@@ -19,10 +18,10 @@ export class AgendamentoFormComponent implements OnInit, OnChanges {
   @Input() agendamentoParaEdicao: any = null;
   @Output() agendamentoSalvo = new EventEmitter<any>();
 
-  // O objeto agendamento agora segue o formato que o backend espera:
+  // Objeto esperado pelo backend:
   // - cliente: objeto com id  
-  // - servicos: array com um objeto {id: number}  
-  // - dataHora: string já no formato "yyyy-MM-dd HH:mm:ss"  
+  // - servicos: array com um objeto { id: number }  
+  // - dataHora: string no formato "yyyy-MM-ddTHH:mm:ss"  
   // - status: string (default "agendado")
   agendamento: Agendamento = {
     cliente: { id: 0 },
@@ -34,26 +33,37 @@ export class AgendamentoFormComponent implements OnInit, OnChanges {
   servicos: Servicos[] = [];
   mensagemSucesso: string | null = null;
 
-  constructor(
-    private servicosService: ServicosService
-  ) {}
+  constructor(private servicosService: ServicosService) {}
 
   ngOnInit(): void {
     this.carregarServicos();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['cliente'] && this.cliente) {
-      this.agendamento.cliente.id = this.cliente.id;
+    console.log('AgendamentoFormComponent ngOnChanges:', { cliente: this.cliente, agendamentoParaEdicao: this.agendamentoParaEdicao });
+    
+    // Se o input "cliente" vier com id, forçamos a conversão para número:
+    if (this.cliente && this.cliente.id != null) {
+      this.agendamento.cliente = { id: Number(this.cliente.id) };
+    } else if (!this.agendamentoParaEdicao) {
+      // Se não houver cliente nem agendamento para edição, garantimos que seja zero.
+      this.agendamento.cliente = { id: 0 };
     }
 
-    if (changes['agendamentoParaEdicao'] && this.agendamentoParaEdicao) {
-      // Preenche os dados do agendamento para edição
+    // Se existir agendamentoParaEdicao, preenche o formulário de edição.
+    if (this.agendamentoParaEdicao) {
       const ag = this.agendamentoParaEdicao;
+      // Se já vem dataHora com espaço, converte para formato do input ("yyyy-MM-ddTHH:mm")
+      const dataHoraInput = (ag.dataHora && ag.dataHora.indexOf(' ') !== -1)
+        ? ag.dataHora.replace(' ', 'T').substring(0, 16)
+        : ag.dataHora;
+      const newClienteId = (this.cliente && this.cliente.id != null)
+        ? Number(this.cliente.id)
+        : (ag.clienteId != null ? Number(ag.clienteId) : 0);
       this.agendamento = {
-        cliente: { id: this.cliente?.id ?? 0 },
-        dataHora: ag.dataHora, // Assume que a dataHora já esteja no formato correto
-        servicos: [{ id: ag.servicoId }],
+        cliente: { id: newClienteId },
+        dataHora: dataHoraInput,
+        servicos: [{ id: ag.servicoId != null ? Number(ag.servicoId) : 0 }],
         status: ag.status || 'agendado'
       };
     }
@@ -61,17 +71,32 @@ export class AgendamentoFormComponent implements OnInit, OnChanges {
 
   carregarServicos(): void {
     this.servicosService.findAll().subscribe({
-      next: (res: Servicos[]) => this.servicos = res,
-      error: (err) => console.error('Erro ao carregar serviços', err)
+      next: (res: Servicos[]) => { this.servicos = res; },
+      error: (err) => { console.error('Erro ao carregar serviços', err); }
     });
   }
 
   salvarAgendamento(): void {
-    console.log('Enviando do formulário:', this.agendamento);
-    this.agendamentoSalvo.emit(this.agendamento);
+    // O input datetime-local fornece valor no formato "yyyy-MM-ddTHH:mm".
+    // Para o backend, precisamos do padrão "yyyy-MM-ddTHH:mm:ss".
+    const dataHora = this.agendamento.dataHora;
+    const dataHoraFormatada = dataHora && dataHora.length === 16 ? dataHora + ':00' : dataHora;
+    
+    const payload = {
+      cliente: { id: Number(this.agendamento.cliente?.id) },
+      servicos: [{
+        id: (this.agendamento.servicos && this.agendamento.servicos.length > 0 && this.agendamento.servicos[0].id != null)
+              ? Number(this.agendamento.servicos[0].id)
+              : 0
+      }],
+      dataHora: dataHoraFormatada,
+      status: this.agendamento.status
+    };
+    console.log('AgendamentoFormComponent - enviando payload:', payload);
+    this.agendamentoSalvo.emit(payload);
     this.mensagemSucesso = 'Agendamento enviado com sucesso!';
     setTimeout(() => this.mensagemSucesso = null, 3000);
-    // Reset opcional
+    // Reset do formulário (opcional)
     this.agendamento = { cliente: { id: 0 }, servicos: [{ id: 0 }], dataHora: '', status: 'agendado' };
   }
-}
+} 
