@@ -33,4 +33,13 @@ export class ServicosService {
   deleteById(id: number): Observable<string>{
     return this.http.delete<string>(this.API+'/delete/'+id, {responseType: 'text' as 'json'});
   }
+
+  findByNome(nome: string): Observable<Servicos[]> {
+    return this.http.get<Servicos[]>(`${this.API}/findByNome?nome=${nome}`);
+  }
+
+  findByDisponibilidade(disponivel: boolean): Observable<Servicos[]> {
+    return this.http.get<Servicos[]>(`${this.API}/findByDisponibilidade?disponivel=${disponivel}`);
+  }
+
 }

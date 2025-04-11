@@ -8,15 +8,30 @@
  
                      <h2> <i class="fas fa-archive fa-sm"></i> Cadastro de Serviços</h2><br>
                      
-                     <div>
-                         
-                     </div>
+                     <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label for="nome">Buscar por Nome:</label>
+                            <input type="text" class="form-control" id="nomeServico" [(ngModel)]="nomeFiltro" (input)="buscarServicosPorNome()" placeholder="Digite o nome do serviço">
+                        </div>
+                    
+                        <div class="col-md-3">
+                            <label for="disponivel">Disponibilidade:</label>
+                            <select id="disponivel" class="form-select" [(ngModel)]="disponibilidadeFiltro" (change)="buscarServicos()">
+                              <option value="">Todos</option>
+                              <option value="true">Disponíveis</option>
+                              <option value="false">Indisponíveis</option>
+                            </select>
+                          </div>
+                          
+
+                    </div>
  
                      <div class="alinharADireita">
                          <a href="admin/servicos/new" class="btn btn-success btn-rounded" mdbRippled>
                              <i class="fas fa-plus fa-sm"></i> Novo
                          </a>
                      </div>
+                    
  
  
                      <table class="table">
@@ -36,7 +51,7 @@
                              <tr>
                                  <td>{{servico.id}}</td>
                                  <td>{{servico.nomeServico}}</td>
-                                 <td>{{servico.preco }}</td>
+                                 <td>{{servico.preco | currency:'BRL':'symbol':'1.2-2'}}</td>
                                  <td>{{servico.duracao}}</td>
                                  <td>
                                   @if (servico.disponivel) {
