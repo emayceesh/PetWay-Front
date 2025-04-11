@@ -51,7 +51,7 @@
                              <tr>
                                  <td>{{servico.id}}</td>
                                  <td>{{servico.nomeServico}}</td>
-                                 <td>{{servico.preco }}</td>
+                                 <td>{{servico.preco | currency:'BRL':'symbol':'1.2-2'}}</td>
                                  <td>{{servico.duracao}}</td>
                                  <td>
                                   @if (servico.disponivel) {
