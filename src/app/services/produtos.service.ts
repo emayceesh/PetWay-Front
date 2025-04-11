@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Produtos } from '../models/produtos';
@@ -33,4 +33,22 @@ export class ProdutosService {
   deleteById(id: number): Observable<string>{
     return this.http.delete<string>(this.API+'/delete/'+id, {responseType: 'text' as 'json'});
   }
+
+  findByNome(nome: string): Observable<Produtos[]> {
+    const params = new HttpParams().set('nome', nome);
+    return this.http.get<Produtos[]>(this.API + '/findByNome', { params });
+  }
+
+  findByCategoria(categoria: string): Observable<Produtos[]> {
+    const params = new HttpParams().set('categoria', categoria);
+    return this.http.get<Produtos[]>(this.API + '/findByCategoria', { params });
+  }
+
+  findByNomeAndCategoria(nome: string, categoria: string): Observable<Produtos[]> {
+    const params = new HttpParams()
+      .set('nome', nome)
+      .set('categoria', categoria);
+    return this.http.get<Produtos[]>(this.API + '/findByNomeAndCategoria', { params });
+  }
+
 }

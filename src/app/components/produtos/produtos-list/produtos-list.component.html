@@ -8,9 +8,26 @@
  
                      <h2> <i class="fas fa-archive fa-sm"></i> Cadastro de Produtos</h2><br>
                      
-                     <div>
-                         
-                     </div>
+                     <!-- FILTROSSSSS NOME E CATEGORIA -->
+                        <div class="row mb-4">
+
+                            <div class="col-md-6">
+                            <label for="nome">Buscar por Nome:</label>
+                            <input type="text" class="form-control" id="nome" [(ngModel)]="nomeFiltro" (input)="buscarProdutos()" placeholder="Digite o nome do produto">
+                            </div>
+                        
+                            <div class="col-md-6">
+                            <label for="categoria">Filtrar por Categoria:</label>
+                            <select class="form-select" id="categoria" [(ngModel)]="categoriaFiltro" (change)="buscarProdutos()">
+                                <option value="">Todas as categorias</option>
+                                @for (categoria of categoriasDisponiveis; track $index) {
+                                <option [value]="categoria">{{categoria}}</option>
+                                }
+                            </select>
+                            </div>
+                        
+                        </div>
+  
  
                      <div class="alinharADireita">
                          <a href="admin/produtos/new" class="btn btn-success btn-rounded" mdbRippled>
@@ -37,7 +54,7 @@
                                  <td>{{produto.id}}</td>
                                  <td>{{produto.nome}}</td>
                                  <td>{{produto.quantidade }}</td>
-                                 <td>{{produto.preco }}</td>
+                                 <td>{{produto.preco | currency:'BRL':'symbol':'1.2-2'}}</td>
                                  <td>{{produto.categoria }}</td>
                                  <td class="alinharADireita">
                                      <a href="admin/produtos/edit/{{produto.id}}" class="btn btn-primary btn-rounded"

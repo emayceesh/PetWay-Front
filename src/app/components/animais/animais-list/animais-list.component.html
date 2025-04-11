@@ -65,7 +65,7 @@
     </div>
     <div class="modal-body">
       <!-- Aqui é onde o componente de formulário é inserido -->
-      <app-animais-form [animais]="animaisEdit" [modoEdicao]="true" (meuEvento)="meuEventoTratamento($event)"></app-animais-form>
+      <app-animais-form [animais]="animaisEdit" [modoEdicao]="modoEdicaoForm" (meuEvento)="meuEventoTratamento($event)"></app-animais-form>
     </div>
   </ng-template>
   

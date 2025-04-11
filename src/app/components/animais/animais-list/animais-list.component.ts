@@ -18,6 +18,8 @@ export class AnimaisListComponent {
   lista: Animais[] = [];
   pesquisa: string = "";
   animaisEdit!: Animais; 
+  modoEdicaoForm: boolean = false;
+
 
   @Input("modoModal") modoModal: boolean = false;
   @Output("meuEvento") meuEvento = new EventEmitter();
@@ -82,11 +84,13 @@ export class AnimaisListComponent {
 
   new(){
     this.animaisEdit = new Animais();  // objeto novo para cadastro
+    this.modoEdicaoForm = false;
     this.modalRef = this.modalService.open(this.modalAnimaisForm, { modalClass: 'modal-xl' });
   }
 
   edit(animal: Animais){
     this.animaisEdit = { ...animal };
+    this.modoEdicaoForm = true;
     this.modalRef = this.modalService.open(this.modalAnimaisForm, { modalClass: 'modal-xl' });
   }
   meuEventoTratamento(mensagem: any){
