@@ -15,8 +15,11 @@ import { AnimaisFormComponent } from "../animais-form/animais-form.component";
   styleUrl: './animais-list.component.scss'
 })
 export class AnimaisListComponent {
-  lista: Animais[] = [];
-  pesquisa: string = "";
+  lista!: Animais[];
+  pesquisa!: string;
+  racaFiltro!: string;
+  racasDisponiveis!: string[];
+
   animaisEdit!: Animais; 
   modoEdicaoForm: boolean = false;
 
@@ -33,6 +36,21 @@ export class AnimaisListComponent {
   constructor() {
     this.findAll();
   }
+
+  ngOnInit(): void {
+    this.animaisService.findAll().subscribe((animais) => {
+      this.lista = animais;
+  
+      this.racasDisponiveis = [
+        ...new Set(
+          animais
+            .map(a => a.raca.trim().toLowerCase())
+            .map(r => r.charAt(0).toUpperCase() + r.slice(1))
+        )
+      ];
+    });
+  }
+  
 
   findAll(){
     this.animaisService.findAll().subscribe({
@@ -81,6 +99,23 @@ export class AnimaisListComponent {
       }
     });
   }
+
+  buscarAnimais() {
+    if (this.pesquisa && this.racaFiltro) {
+      this.animaisService.findByNomeAndRaca(this.pesquisa, this.racaFiltro).subscribe((res) => {
+        this.lista = res;
+      });
+    } else if (this.pesquisa) {
+      this.findByNome();
+    } else if (this.racaFiltro) {
+      this.animaisService.findByRaca(this.racaFiltro).subscribe((res) => {
+        this.lista = res;
+      });
+    } else {
+      this.findAll();
+    }
+  }
+  
 
   new(){
     this.animaisEdit = new Animais();  // objeto novo para cadastro

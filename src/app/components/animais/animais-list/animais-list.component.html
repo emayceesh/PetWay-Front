@@ -7,11 +7,23 @@
     
             <div class="row">
               <div class="col-6">
+                <label for="nomeAnimal">Buscar por Nome:</label>
                 <div class="input-group mb-3">
                   <input (keyup)="findByNome()" [(ngModel)]="pesquisa" type="text" class="form-control"
                     placeholder="Digite parte do nome do animal" aria-label="Busca" aria-describedby="button-addon2" />
                 </div>
               </div>
+
+              <div class="col-md-6">
+                <label for="categoria">Filtrar por Raça:</label>
+                <select class="form-select" [(ngModel)]="racaFiltro" (change)="buscarAnimais()">
+                  <option value="">Todas as raças</option>
+                  @for (raca of racasDisponiveis; track $index) {
+                    <option [value]="raca">{{ raca }}</option>
+                  }
+                </select>
+              </div>
+
               <div class="col-6">
                 <div class="alinharADireita">
                   <a (click)="new()" class="btn btn-success btn-rounded" mdbRippled>
@@ -26,7 +38,7 @@
                 <tr>
                   <th scope="col">ID</th>
                   <th scope="col">NOME</th>
-                  <th scope="col"></th>
+                  <th scope="col">RAÇA</th>
                 </tr>
               </thead>
               <tbody>
@@ -34,6 +46,7 @@
                   <tr>
                     <td>{{ animal.id }}</td>
                     <td>{{ animal.nomeAnimal }}</td>
+                    <td>{{ animal.raca }}</td>
                     <td class="alinharADireita">
                       <a (click)="edit(animal)" class="btn btn-primary btn-rounded" mdbRippled>
                         <i class="fas fa-pencil fa-sm"></i>

@@ -24,12 +24,27 @@ export class AnimaisService {
     return this.http.get<Animais>(this.API+'/findById/'+id);
   }
 
-  findByNome(nome: string): Observable<Animais[]>{
+  findByNome(nomeAnimal: string): Observable<Animais[]>{
     let par = new HttpParams()
-    .set('nome',nome);
+    .set('nomeAnimal',nomeAnimal);
     
     return this.http.get<Animais[]>(this.API+'/findByNome', {params: par});
   }
+
+  findByRaca(raca: string): Observable<Animais[]> {
+    let params = new HttpParams().set('raca', raca);
+    return this.http.get<Animais[]>(this.API + '/findByRaca', { params });
+  }
+  
+
+  findByNomeAndRaca(nome: string, raca: string): Observable<Animais[]> {
+    let params = new HttpParams()
+      .set('nome', nome)
+      .set('raca', raca);
+  
+    return this.http.get<Animais[]>(this.API + '/findByNomeAndRaca', { params });
+  }
+  
 
   deleteById(id: number): Observable<string>{
     return this.http.delete<string>(this.API+'/delete/'+id, {responseType: 'text' as 'json'});
