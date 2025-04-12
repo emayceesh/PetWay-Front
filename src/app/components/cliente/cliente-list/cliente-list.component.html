@@ -11,12 +11,25 @@
                      <div>
                          
                      </div>
- 
-                     <div class="alinharADireita">
-                         <a href="admin/cliente/new" class="btn btn-success btn-rounded" mdbRippled>
-                             <i class="fas fa-plus fa-sm"></i> Novo
-                         </a>
+
+                     <div class="row mb-4">
+                     <div class="col-md-6">
+                        <label for="nome">Buscar por Nome:</label>
+                        <input type="text" class="form-control" id="nome" [(ngModel)]="nomeFiltro" (input)="buscarCliente()" placeholder="Digite o nome do cliente">
                      </div>
+
+                     <div class="col-md-6">
+                        <label for="cpf">Buscar por CPF:</label>
+                        <input type="text" class="form-control" id="cpf" [(ngModel)]="cpfFiltro" (input)="buscarCliente()" placeholder="Digite o CPF">
+                     </div>
+ 
+                    </div>
+
+                    <div class="alinharADireita">
+                        <a href="admin/cliente/new" class="btn btn-success btn-rounded" mdbRippled>
+                            <i class="fas fa-plus fa-sm"></i> Novo
+                        </a>
+                    </div>
  
  
                      <table class="table">
@@ -25,6 +38,8 @@
                              <tr>
                                  <th scope="col">ID</th>
                                  <th scope="col">NOME</th>
+                                 <th scope="col">Celular</th>
+                                 <th scope="col">CPF</th>
                                  <th scope="col alinharADireita">AÇÕES</th>
                              </tr>
                          </thead>
@@ -33,6 +48,8 @@
                              <tr>
                                  <td>{{cliente.id}}</td>
                                  <td>{{cliente.nomeCliente}}</td>
+                                 <td>{{cliente.celular}}</td>
+                                 <td>{{cliente.cpf}}</td>
                                  <td class="alinharADireita">
                                      <a href="admin/cliente/edit/{{cliente.id}}" class="btn btn-primary btn-rounded"
                                          mdbRippled>

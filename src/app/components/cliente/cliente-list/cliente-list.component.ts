@@ -2,16 +2,21 @@ import { Component, inject } from '@angular/core';
 import { Cliente } from '../../../models/cliente';
 import { ClienteService } from '../../../services/cliente.service';
 import Swal from 'sweetalert2';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-cliente-list',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, FormsModule],
   templateUrl: './cliente-list.component.html',
   styleUrl: './cliente-list.component.scss'
 })
 export class ClienteListComponent {
-  lista: Cliente[] = [];
+  
+  lista!: Cliente[];
+  nomeFiltro!: string;
+  cpfFiltro!: string;
 
   clienteService = inject(ClienteService);
 
@@ -51,5 +56,23 @@ export class ClienteListComponent {
 
     }
     });
+  }
+
+  buscarCliente() {
+    if (this.nomeFiltro) {
+      this.clienteService.findByNome(this.nomeFiltro).subscribe((res) => {
+        this.lista = res;
+      });
+    } else if (this.cpfFiltro) {
+      this.clienteService
+        .findByCpf(this.cpfFiltro)
+        .subscribe((res) => {
+          this.lista = res;
+        });
+    } else {
+      this.clienteService.findAll().subscribe((res) => {
+        this.lista = res;
+      });
+    }
   }
 }

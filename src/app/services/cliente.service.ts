@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Cliente } from '../models/cliente';
@@ -32,5 +32,15 @@ export class ClienteService {
 
   deleteById(id: number): Observable<string>{
     return this.http.delete<string>(this.API+'/delete/'+id, {responseType: 'text' as 'json'});
+  }
+
+  findByNome(nomeCliente: string): Observable<Cliente[]> {
+      const params = new HttpParams().set('nome', nomeCliente);
+      return this.http.get<Cliente[]>(this.API + '/findByNome', { params });
+  }
+
+  findByCpf(cpfCliente: string): Observable<Cliente[]> {
+      const params = new HttpParams().set('cpf', cpfCliente);
+      return this.http.get<Cliente[]>(this.API + '/findByCpf', { params });
   }
 }
