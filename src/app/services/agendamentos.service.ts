@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Agendamento } from '../models/agendamento';
+import { Servicos } from '../models/servicos';
 
 @Injectable({
   providedIn: 'root'
@@ -44,5 +45,7 @@ export class AgendamentoService {
   buscarEntreDatas(start: string, end: string): Observable<Agendamento[]> {
     return this.http.get<Agendamento[]>(`${this.API}/buscarEntreDatas?startDate=${start}&endDate=${end}`);
   }
+ 
+  
   
 }
