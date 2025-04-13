@@ -23,6 +23,9 @@ export class AgendamentosListComponent implements OnInit {
   mostrarFormularioAgendamento = false;
   modalRef!: MdbModalRef<AgendamentoFormComponent>;
   agendamentoParaEdicao: any = null;
+
+
+  nomeFiltro: string = '';
   
 
   // Campos para busca por período (em formato "yyyy-MM-ddTHH:mm")
@@ -124,4 +127,20 @@ export class AgendamentosListComponent implements OnInit {
       alert('Por favor, preencha as datas de início e fim para a busca.');
     }
   }
+ // NO COMPONENTE (CORRIGIDO)
+buscarPorNome(): void {
+  if (this.nomeFiltro) {
+    this.agendamentoService.buscarPorNome(this.nomeFiltro).subscribe({ // ✅ Método correto
+      next: (result) => {
+        this.agendamentosEncontrados = result;
+      },
+      error: (erro) => {
+        console.error('Erro:', erro);
+        alert(erro.error?.message || 'Erro ao buscar agendamentos');
+      }
+    });
+  } else {
+    this.agendamentosEncontrados = [];
+  }
+}
 }

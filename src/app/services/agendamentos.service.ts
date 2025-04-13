@@ -46,6 +46,15 @@ export class AgendamentoService {
     return this.http.get<Agendamento[]>(`${this.API}/buscarEntreDatas?startDate=${start}&endDate=${end}`);
   }
  
+  // buscarPorNome(nomeCliente: string): Observable<Agendamento[]> { 
+  //   const params = new HttpParams().set('nomeCliente', nomeCliente);
+  //   return this.http.get<Agendamento[]>(`${this.API}/buscarPorNomeCliente`, { params });
+  // }
+  buscarPorNome(nomeCliente: string) { // ✅ Nome do método alterado
+    return this.http.get<any[]>(`${this.API}/buscarPorNomeCliente`, { // ✅ Endpoint correto
+      params: { nomeCliente: nomeCliente } // ✅ Parâmetro correto
+    });
+  }
   
   
 }

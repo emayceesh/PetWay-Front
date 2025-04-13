@@ -18,15 +18,14 @@
     <div class="form-group mb-4">
       <label for="servico">Serviço:</label>
       <select id="servico"
-      class="form-control"
-      [(ngModel)]="agendamento.servicos[0].id"
-      name="servicoId"
-      required>
-<option *ngFor="let servico of servicos" [value]="servico.id">
-  {{ servico.nomeServico }}
-</option>
-</select> 
-
+              class="form-control"
+              [(ngModel)]="agendamento.servicos[0].id"
+              name="servicoId"
+              required>
+        <option *ngFor="let servico of servicos" [value]="servico.id">
+          {{ servico.nomeServico }}
+        </option>
+      </select>
     </div>
 
     <div class="text-end">
@@ -38,8 +37,9 @@
     </div>
   </form>
 
-  <div *ngIf="mensagemSucesso" class="alert alert-success mt-3 animate__animated animate__fadeIn">
-    {{ mensagemSucesso }}
-  </div>
+  @if (mensagemSucesso) {
+    <div class="alert alert-success mt-3 animate__animated animate__fadeIn">
+      {{ mensagemSucesso }}
+    </div>
+  }
 </div>
- 
