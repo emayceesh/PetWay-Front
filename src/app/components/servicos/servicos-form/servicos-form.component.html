@@ -13,17 +13,17 @@
           <form #formulario="ngForm" (ngSubmit)="save()">
 
             <mdb-form-control>
-              <input mdbInput type="text" name="nome" class="form-control" [(ngModel)]="servicos.nomeServico" />
+              <input required mdbInput type="text" name="nome" class="form-control" [(ngModel)]="servicos.nomeServico" />
               <label mdbLabel class="form-label" for="nome">Nome do serviço</label>
             </mdb-form-control>
             <br>
             <mdb-form-control>
-                <input mdbInput type="text" name="preco" class="form-control" [(ngModel)]="servicos.preco" />
+                <input required mdbInput type="text" name="preco" class="form-control" [(ngModel)]="servicos.preco" />
                 <label mdbLabel class="form-label" for="nome">Preço</label>
             </mdb-form-control>
             <br>
             <mdb-form-control>
-                <input mdbInput type="text" name="duracao" class="form-control" [(ngModel)]="servicos.duracao" />
+                <input required mdbInput type="text" name="duracao" class="form-control" [(ngModel)]="servicos.duracao" />
                 <label mdbLabel class="form-label" for="nome">Duração</label>
             </mdb-form-control>
             <br>

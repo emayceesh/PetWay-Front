@@ -13,17 +13,17 @@
           <form #formulario="ngForm" (ngSubmit)="save()">
 
             <mdb-form-control>
-              <input mdbInput type="text" name="nome" class="form-control" [(ngModel)]="cliente.nomeCliente" />
+              <input required mdbInput type="text" name="nome" class="form-control" [(ngModel)]="cliente.nomeCliente" />
               <label mdbLabel class="form-label" for="nome">Nome do cliente</label>
             </mdb-form-control>
             <br>
             <mdb-form-control>
-                <input mdbInput type="text" name="cpf" class="form-control" [(ngModel)]="cliente.cpf" />
+                <input required mdbInput type="text" name="cpf" class="form-control" [(ngModel)]="cliente.cpf" />
                 <label mdbLabel class="form-label" for="nome">CPF</label>
             </mdb-form-control>
             <br>
             <mdb-form-control>
-                <input mdbInput type="text" name="celular" class="form-control" [(ngModel)]="cliente.celular" />
+                <input required mdbInput type="text" name="celular" class="form-control" [(ngModel)]="cliente.celular" />
                 <label mdbLabel class="form-label" for="nome">Celular</label>
             </mdb-form-control>
             <br>
@@ -33,23 +33,10 @@
             </mdb-form-control>
             <br>
             <mdb-form-control>
-                <input mdbInput type="text" name="endereco" class="form-control" [(ngModel)]="cliente.endereco" />
+                <input required mdbInput type="text" name="endereco" class="form-control" [(ngModel)]="cliente.endereco" />
                 <label mdbLabel class="form-label" for="nome">Endereco</label>
             </mdb-form-control>
             <br>
-
-            <div class="col-6"><br>
-              <label class="nomeAnimal">Animais:</label>
-              <div class="input-group mb-3">
-                @if(cliente.animais){
-                  <div class="border w-100 p-2 text-primary"> @for (animais of cliente.animais; track $index) { 
-                    <div>{{ animais.nomeAnimal }}</div>
-                    }
-                  </div>
-                }
-              </div>
-            </div>
-
             @if(cliente.id > 0){
             <button type="submit" [disabled]="!formulario.valid" class="btn btn-success btn-rounded">
               <i class="fas fa-save fa-sm"></i> Atualizar
@@ -69,31 +56,3 @@
     <div class="col-4"></div>
   </div>
 </div>
-
-<ng-template #modalAnimaisList>
-  <div class="modal-header">
-    <h5 class="modal-title">Lista de Animais</h5>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modalRef.close()"></button>
-  </div>
-
-  <div class="modal-body">
-    <div class="d-flex justify-content-end mb-2">
-      <button class="btn btn-primary" (click)="novoAnimal()">+ Novo Animal</button>
-    </div>
-
-    <ul class="list-group">
-      @if(listaAnimais.length > 0) {
-        @for (animais of listaAnimais; track animais.id) {
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            <span>{{ animais.nomeAnimal }}</span>
-            <button class="btn btn-sm btn-success" (click)="selecionarAnimal(animais)">
-              Selecionar
-            </button>
-          </li>
-        }
-      } @else {
-        <li class="list-group-item">Nenhum animal cadastrado.</li>
-      }
-    </ul>
-  </div>
-</ng-template>

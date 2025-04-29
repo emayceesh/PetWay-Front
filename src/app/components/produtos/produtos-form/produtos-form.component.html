@@ -13,17 +13,17 @@
           <form #formulario="ngForm" (ngSubmit)="save()">
 
             <mdb-form-control>
-              <input mdbInput type="text" name="nome" class="form-control" [(ngModel)]="produtos.nome" />
+              <input required mdbInput type="text" name="nome" class="form-control" [(ngModel)]="produtos.nome" />
               <label mdbLabel class="form-label" for="nome">Nome do produto</label>
             </mdb-form-control>
             <br>
             <mdb-form-control>
-                <input mdbInput type="text" name="quantidade" class="form-control" [(ngModel)]="produtos.quantidade" />
+                <input required mdbInput type="text" name="quantidade" class="form-control" [(ngModel)]="produtos.quantidade" />
                 <label mdbLabel class="form-label" for="nome">Quantidade</label>
             </mdb-form-control>
             <br>
             <mdb-form-control>
-                <input mdbInput type="text" name="preco" class="form-control" [(ngModel)]="produtos.preco" />
+                <input required mdbInput type="text" name="preco" class="form-control" [(ngModel)]="produtos.preco" />
                 <label mdbLabel class="form-label" for="nome">Preço</label>
             </mdb-form-control>
             <br>
