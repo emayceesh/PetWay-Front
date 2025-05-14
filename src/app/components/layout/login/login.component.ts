@@ -38,7 +38,7 @@ export class LoginComponent {
         this.gerarToast().fire({ icon: "success", title: "Seja bem-vindo!" });
         this.router.navigate(['admin/dashboard']);
 
-        this.router.navigate(['/admin/carros']);
+        this.router.navigate(['/admin/dashboard']);
       },
       error: erro => {
         Swal.fire('Usuário ou senha incorretos!', '', 'error');

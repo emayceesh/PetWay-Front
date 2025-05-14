@@ -22,11 +22,11 @@ export const meuhttpInterceptor: HttpInterceptorFn = (request, next) => {
         console.log('entrou aqui 2');
         
         if (err.status === 401) {
-          alert('401 - tratar aqui');
+          alert('ERROR 401 - Acesso não autorizado ou expirado!');
           router.navigate(['/login']);
         } else
         if (err.status === 403) {
-          alert('403 - tratar aqui');
+          alert('ERROR 403 - Colaborador sem permissão!ng');
           router.navigate(['/login']);
         } else {
           console.error('HTTP error:', err);
