@@ -9,7 +9,7 @@ export const meuhttpInterceptor: HttpInterceptorFn = (request, next) => {
 
   let token = localStorage.getItem('token');
   
-  console.log('entrou aqui 1');
+  console.log('Role autorizada!');
   if (token && !router.url.includes('/login')) {
     request = request.clone({
       setHeaders: { Authorization: 'Bearer ' + token },
@@ -19,7 +19,7 @@ export const meuhttpInterceptor: HttpInterceptorFn = (request, next) => {
   return next(request).pipe(
     catchError((err: any) => {
       if (err instanceof HttpErrorResponse) {
-        console.log('entrou aqui 2');
+        console.log('Não conseguiu acessar recurso! kkkkk');
         
         if (err.status === 401) {
           alert('ERROR 401 - Acesso não autorizado ou expirado!');
