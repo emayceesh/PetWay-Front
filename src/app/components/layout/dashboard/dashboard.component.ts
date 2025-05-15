@@ -9,4 +9,16 @@ import { Component } from '@angular/core';
 })
 export class DashboardComponent {
 
+  listaGraficos: any = [];
+
+
+  constructor(){
+    this.listaGraficos.push("01");
+    this.listaGraficos.push("02");
+    this.listaGraficos.push("03");
+    this.listaGraficos.push("04");
+    this.listaGraficos.push("05");
+    this.listaGraficos.push("06");
+  }
+
 }

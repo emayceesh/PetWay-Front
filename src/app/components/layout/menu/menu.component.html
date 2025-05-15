@@ -20,6 +20,7 @@
           <li class="nav-item">
             <a class="nav-link" aria-current="page" href="/admin/dashboard">Início</a>
           </li>
+
           <li class="nav-item">
             <a class="nav-link" href="/admin/cliente">Clientes</a>
           </li>
@@ -29,12 +30,16 @@
           <li class="nav-item">
             <a class="nav-link" href="/admin/agendamento">Agendamento</a>
           </li>
+
+          @if(loginService.hasRole('ROLE_ADMIN')) {
           <li class="nav-item">
             <a class="nav-link" href="/admin/produtos">Produtos</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/admin/servicos">Servicos</a>
           </li>
+          }
+
           <li class="nav-item">
             <a class="nav-link" href="/login">Sair</a>
           </li>

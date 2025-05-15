@@ -19,15 +19,15 @@ export const meuhttpInterceptor: HttpInterceptorFn = (request, next) => {
   return next(request).pipe(
     catchError((err: any) => {
       if (err instanceof HttpErrorResponse) {
-        console.log('Não conseguiu acessar recurso! kkkkk');
+        console.log('Não deu boa amigão!!');
         
         if (err.status === 401) {
           alert('ERROR 401 - Acesso não autorizado ou expirado!');
-          router.navigate(['/login']);
+          router.navigate(['/admin/dashboard']);
         } else
         if (err.status === 403) {
-          alert('ERROR 403 - Colaborador sem permissão!ng');
-          router.navigate(['/login']);
+          alert('ERROR 403 - Usuário sem permissão!');
+          router.navigate(['/admin/dashboard']);
         } else {
           console.error('HTTP error:', err);
         }
