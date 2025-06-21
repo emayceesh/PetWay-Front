@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Cliente } from '../models/cliente';
+import { Pagina } from '../models/pagina';
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +23,8 @@ export class ClienteService {
     return this.http.put<string>(this.API+'/update/'+id, cliente, {responseType: 'text' as 'json'});
   }
 
-  findAll(): Observable<Cliente[]>{
-    return this.http.get<Cliente[]>(this.API+'/findAll');
+  findAll(numPage: number, numQntdPorPagina: number): Observable<Pagina>{
+    return this.http.get<Pagina>(this.API+'/findAll/'+numPage+'/'+numQntdPorPagina);
   }
 
   findById(id: number): Observable<Cliente>{

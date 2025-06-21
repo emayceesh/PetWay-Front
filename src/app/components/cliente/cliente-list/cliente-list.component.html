@@ -64,6 +64,12 @@
  
                          </tbody>
                      </table>
+                     <ngb-pagination 
+                    (pageChange)="trocarPagina($event)" 
+                    [pageSize]="pagina.size" 
+                    [collectionSize]="pagina.totalElements" 
+                    [(page)]="numPage" 
+                    [boundaryLinks]="true" /> 
  
                  </div>
              </div>

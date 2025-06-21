@@ -7,6 +7,7 @@ import { AgendamentoFormComponent } from '../agendamento-form/agendamento-form.c
 import { AgendamentoService } from '../../../services/agendamentos.service';
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 import { CommonModule } from '@angular/common';
+import { Pagina } from '../../../models/pagina';
 
 @Component({
   selector: 'app-agendamentos-list',
@@ -24,6 +25,9 @@ export class AgendamentosListComponent implements OnInit {
   modalRef!: MdbModalRef<AgendamentoFormComponent>;
   agendamentoParaEdicao: any = null;
 
+  pagina: Pagina = new Pagina();
+  numPage: number = 1;
+  numQntdPorPagina: number = 5;
 
   nomeFiltro: string = '';
   
@@ -43,8 +47,8 @@ export class AgendamentosListComponent implements OnInit {
   }
 
   carregarClientes(): void {
-    this.clienteService.findAll().subscribe({
-      next: (lista) => { this.clientes = lista; },
+    this.clienteService.findAll(this.numPage, this.numQntdPorPagina ).subscribe({
+      next: (pagina) => { this.clientes = pagina.content; },
       error: (erro) => { console.error('Erro ao carregar clientes', erro); }
     });
   }

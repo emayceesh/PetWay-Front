@@ -4,17 +4,22 @@ import { ClienteService } from '../../../services/cliente.service';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Pagina } from '../../../models/pagina';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-cliente-list',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NgbPaginationModule],
   templateUrl: './cliente-list.component.html',
   styleUrl: './cliente-list.component.scss'
 })
 export class ClienteListComponent {
   
   lista!: Cliente[];
+  pagina: Pagina = new Pagina();
+  numPage: number = 1;
+  numQntdPorPagina: number = 5;
   nomeFiltro!: string;
   cpfFiltro!: string;
 
@@ -25,9 +30,10 @@ export class ClienteListComponent {
   }
 
   findAll(){
-    this.clienteService.findAll().subscribe({
-      next: (listaRetornada) => {
-        this.lista = listaRetornada;
+    this.clienteService.findAll(this.numPage, this.numQntdPorPagina).subscribe({
+      next: (pagina) => {
+        this.lista = pagina.content;
+        this.pagina = pagina;
       },
       error: (erro) => {
         alert(erro.error);
@@ -70,9 +76,18 @@ export class ClienteListComponent {
           this.lista = res;
         });
     } else {
-      this.clienteService.findAll().subscribe((res) => {
-        this.lista = res;
-      });
+      this.clienteService.findAll(this.numPage, this.numQntdPorPagina).subscribe({
+      next: (pagina) => {
+        this.lista = pagina.content;
+      },
+      error: (erro) => {
+        alert(erro.error);
+      }
+    });
     }
+  }
+  trocarPagina(pageClicada: any){
+    this.numPage = pageClicada;
+    this.findAll();
   }
 }

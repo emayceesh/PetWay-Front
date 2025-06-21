@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { ClienteService } from '../../../services/cliente.service';
 import { Cliente } from '../../../models/cliente';
 import { MdbModalService, MdbModalRef } from 'mdb-angular-ui-kit/modal';
+import { Pagina } from '../../../models/pagina';
 
 @Component({
   selector: 'app-animais-form',
@@ -29,6 +30,10 @@ export class AnimaisFormComponent {
   
   listaClientes!: Cliente[];
   clienteSelecionado!: Cliente["id"];
+
+  pagina: Pagina = new Pagina();
+  numPage: number = 1;
+  numQntdPorPagina: number = 5;
 
 
   rotaAtivida = inject(ActivatedRoute);
@@ -89,9 +94,9 @@ export class AnimaisFormComponent {
   }
 
   buscarCliente() {
-    this.ClienteService.findAll().subscribe({
-      next: (lista) => {
-        this.listaClientes = lista;
+    this.ClienteService.findAll(this.numPage, this.numQntdPorPagina).subscribe({
+      next: (pagina) => {
+        this.listaClientes = pagina.content;
         this.modalRef = this.modalService.open(this.modalClientesList, { modalClass: 'modal-lg' });
         console.log(this.listaClientes, ClienteService);
       },
@@ -116,9 +121,9 @@ export class AnimaisFormComponent {
   
   ngOnInit(): void {
     if (this.modoEdicao) {
-      this.ClienteService.findAll().subscribe({
+      this.ClienteService.findAll(this.numPage, this.numQntdPorPagina).subscribe({
         next: (clientes) => {
-          this.listaClientes = clientes;
+          this.listaClientes = this.pagina.content;
         },
         error: (erro) => {
           console.error('Erro ao carregar clientes:', erro);

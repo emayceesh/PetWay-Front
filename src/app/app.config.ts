@@ -5,6 +5,7 @@ import { routes } from './app.routes';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { meuhttpInterceptor } from './auth/http-interceptor.service';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap'
 
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({ eventCoalescing: true }), 

@@ -10,7 +10,7 @@ import { AnimaisService } from '../../../services/animais.service';
 import { ViewChild } from '@angular/core';
 import { AnimaisListComponent } from '../../animais/animais-list/animais-list.component';
 import { LoginService } from '../../../auth/login.service';
-
+import { Pagina } from '../../../models/pagina';
 
 @Component({
   selector: 'app-dashboard',
@@ -27,6 +27,10 @@ export class DashboardComponent implements OnInit {
   clienteService = inject(ClienteService);
   animaisService = inject(AnimaisService);
   loginService = inject(LoginService);
+
+  pagina: Pagina = new Pagina();
+  numPage: number = 1;
+  numQntdPorPagina: number = 5;
 
   router = inject(Router);
 
@@ -55,8 +59,8 @@ export class DashboardComponent implements OnInit {
       this.agendamentosTotal = agendamentos.length;
     });
 
-    this.clienteService.findAll().subscribe(clientes => {
-      this.clientesTotal = clientes.length;
+    this.clienteService.findAll(this.numPage, this.numQntdPorPagina).subscribe(clientes => {
+      this.clientesTotal = this.pagina.totalElements;
     });
 
     this.animaisService.findAll().subscribe(animais => {
