@@ -1,42 +1,7 @@
-<div class="login-page">
-  <div class="welcome-section">
-    <div class="wave-bg"></div>
-    <h1>Bem-vindo à PetWay</h1>
-    <p>O sistema mais fácil e divertido para gerenciar seu petshop: agendamentos, atendimentos e muito mais!</p>
-    <p class="credits">Desenvolvedores: Patryk Rennan, Danley Fernando 🎉</p>
-  </div>
-  <div class="login-card">
-    <h2>Autentique-se</h2>
-    <form (ngSubmit)="logar()">
-      <mdb-form-control class="form-group">
-        <input
-          [(ngModel)]="login.username"
-          name="username"
-          mdbInput
-          type="text"
-          id="login"
-          class="form-control"
-          required
-        />
-        <label mdbLabel class="form-label" for="login">Usuário</label>
-      </mdb-form-control>
-
-      <mdb-form-control class="form-group">
-        <input
-          [(ngModel)]="login.password"
-          name="password"
-          mdbInput
-          type="password"
-          id="senha"
-          class="form-control"
-          required
-        />
-        <label mdbLabel class="form-label" for="senha">Senha</label>
-      </mdb-form-control>
-
-      <button type="submit" class="btn btn-primary btn-submit" mdbRipple>
-        Entrar
-      </button>
-    </form>
-  </div>
+<div class="login-card">
+  <h2>Autentique-se</h2>
+  <p>Clique no botão abaixo para acessar o sistema:</p>
+  <button (click)="logar()" class="btn btn-primary btn-submit">
+    Entrar com Keycloak
+  </button>
 </div>

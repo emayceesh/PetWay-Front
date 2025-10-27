@@ -10,29 +10,40 @@ import { ProdutosFormComponent } from './components/produtos/produtos-form/produ
 import { ServicosListComponent } from './components/servicos/servicos-list/servicos-list.component';
 import { ServicosFormComponent } from './components/servicos/servicos-form/servicos-form.component';
 import { DashboardComponent } from './components/layout/dashboard/dashboard.component';
-import { LoginComponent } from './components/layout/login/login.component';
 import { PrincipalComponent } from './components/layout/principal/principal.component';
-import { guardGuard } from './auth/guard.guard';
+
+// Guard do Keycloak
+import { AuthGuard } from './auth/guard.guard'; 
 
 export const routes: Routes = [
-    {path: "", redirectTo: "login", pathMatch: 'full'},
-    {path: "login", component: LoginComponent},
-    {path: "admin", component: PrincipalComponent, canActivate:[guardGuard], children:[
-        {path: "dashboard", component: DashboardComponent},
-        {path: "cliente", component: ClienteListComponent},
-        {path: "cliente/new", component: ClienteFormComponent},
-        {path: "cliente/edit/:id", component: ClienteFormComponent},
-        {path: "animais", component: AnimaisListComponent},
-        {path: "animais/new", component: AnimaisFormComponent},
-        {path: "animais/edit/:id", component: AnimaisFormComponent},
-        {path: "agendamento", component: AgendamentosListComponent},
-        {path: "agendamento/new", component: AgendamentoFormComponent},
-        {path: "agendamento/edit/:id", component: AgendamentoFormComponent},
-        {path: "produtos", component: ProdutosListComponent},
-        {path: "produtos/new", component: ProdutosFormComponent},
-        {path: "produtos/edit/:id", component: ProdutosFormComponent},
-        {path: "servicos", component: ServicosListComponent},
-        {path: "servicos/new", component: ServicosFormComponent},
-        {path: "servicos/edit/:id", component: ServicosFormComponent},
-    ]}
+    // Redireciona automaticamente para a rota protegida do dashboard
+    { path: '', redirectTo: 'admin/dashboard', pathMatch: 'full' },
+
+    // Todas as rotas dentro de /admin são protegidas
+    {
+        path: 'admin', 
+        component: PrincipalComponent, 
+        canActivate: [AuthGuard], 
+        children: [
+            { path: 'dashboard', component: DashboardComponent },
+            { path: 'cliente', component: ClienteListComponent },
+            { path: 'cliente/new', component: ClienteFormComponent },
+            { path: 'cliente/edit/:id', component: ClienteFormComponent },
+            { path: 'animais', component: AnimaisListComponent },
+            { path: 'animais/new', component: AnimaisFormComponent },
+            { path: 'animais/edit/:id', component: AnimaisFormComponent },
+            { path: 'agendamento', component: AgendamentosListComponent },
+            { path: 'agendamento/new', component: AgendamentoFormComponent },
+            { path: 'agendamento/edit/:id', component: AgendamentoFormComponent },
+            { path: 'produtos', component: ProdutosListComponent },
+            { path: 'produtos/new', component: ProdutosFormComponent },
+            { path: 'produtos/edit/:id', component: ProdutosFormComponent },
+            { path: 'servicos', component: ServicosListComponent },
+            { path: 'servicos/new', component: ServicosFormComponent },
+            { path: 'servicos/edit/:id', component: ServicosFormComponent },
+        ]
+    },
+
+    // Caso tente acessar uma rota inexistente
+    { path: '**', redirectTo: 'admin/dashboard' }
 ];

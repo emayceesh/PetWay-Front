@@ -1,41 +1,42 @@
-<br />
-<app-animais-list style="display: none;"></app-animais-list>
-
 <div class="container">
   <div class="row">
     <div class="col-4 mb-3">
-        <button class="btn-atalho" (click)="irParaAgendamento()">
-            Novo Agendamento
-          </button>
-          @if(loginService.hasRole('ROLE_ADMIN')){
-      <div class="card-agendamento">
-        <p class="descricao">Total de Agendamentos</p>
-        <h1 class="numero">{{ agendamentosTotal }}</h1>
-      </div>
-    }
+      <button class="btn-atalho" (click)="irParaAgendamento()">
+        Novo Agendamento
+      </button>
+      @if(loginService.hasRole('ROLE_ADMIN')){
+        <div class="card-agendamento">
+          <p class="descricao">Total de Agendamentos</p>
+          <h1 class="numero">{{ agendamentosTotal }}</h1>
+        </div>
+      }
     </div>
 
     <div class="col-4 mb-3">
-        <button class="btn-atalho" (click)="irParaNovoCliente()">
-            Novo Cliente
-          </button>
-          @if(loginService.hasRole('ROLE_ADMIN')){
-          <div class="card-agendamento">
-        <p class="descricao">Clientes Cadastrados</p>
-        <h1 class="numero">{{ clientesTotal }}</h1>
-      </div>
-    }
+      <button class="btn-atalho" (click)="irParaNovoCliente()">
+        Novo Cliente
+      </button>
+      @if(loginService.hasRole('ROLE_ADMIN')){
+        <div class="card-agendamento">
+          <p class="descricao">Clientes Cadastrados</p>
+          <h1 class="numero">{{ clientesTotal }}</h1>
+        </div>
+      }
     </div>
+
     <div class="col-4 mb-3">
-        <button class="btn-atalho" (click)="abrirModalAnimal()">
-            Novo Animal
-          </button>
-          @if(loginService.hasRole('ROLE_ADMIN')){
-          <div class="card-agendamento">
-        <p class="descricao">Animais Cadastrados</p>
-        <h1 class="numero">{{ animaisTotal }}</h1>
-      </div>
-    }
+      <button class="btn-atalho" (click)="abrirModalAnimal()">
+        Novo Animal
+      </button>
+      @if(loginService.hasRole('ROLE_ADMIN')){
+        <div class="card-agendamento">
+          <p class="descricao">Animais Cadastrados</p>
+          <h1 class="numero">{{ animaisTotal }}</h1>
+        </div>
+      }
     </div>
   </div>
+
+  <!-- Aqui vamos renderizar as rotas filhas -->
+  <router-outlet></router-outlet>
 </div>

@@ -1,0 +1,13 @@
+<html>
+<body>
+    <!-- 
+      Este é um arquivo estático (sem código Angular) exigido pelo Keycloak
+      para checar a sessão do usuário em segundo plano (silent check SSO).
+    -->
+    <script>
+        // O Keycloak usa esta mensagem para determinar se o usuário está logado
+        // no servidor Keycloak sem redirecionar a página principal.
+        parent.postMessage(location.href, location.origin);
+    </script>
+</body>
+</html>
